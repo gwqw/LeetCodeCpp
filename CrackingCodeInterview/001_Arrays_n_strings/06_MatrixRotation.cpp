@@ -7,6 +7,15 @@
     4 2
     
     in-place rotation for square matrix
+    00, 01, ..., 0i, 0n-1
+    10, 11, ..., 1i, 1n-1
+    ...
+    j0, j1, ..., ji, jn-1
+    n-10, n-11, ..., n-1i, n-1n-1
+    
+    0,0 -> 0,n-1 -> n-1,n-1 -> n-1,0 -> 0,0
+    0,i -> i,n-1 -> n-1,n-1-i -> n-1-i,0
+    j,i -> i,n-1-j -> n-1-j,n-1-i -> n-1-i,j
 */
 
 
@@ -64,4 +73,19 @@ Matrix rotateMatrix(const Matrix& m) {
         }
     }
     return res;
+}
+
+void rotateMatrix2(Matrix& m) {
+    // j,i -> i,n-1-j -> n-1-j,n-1-i -> n-1-i,j
+    double t;
+    size_t n = m.getRowCount();
+    for (size_t i = 0; i < n / 2; ++i) {
+        for (size_t j = 0; j < n / 2; ++j) {
+            t = m[i][j];
+            m[i][j] = m[n-1-i][j];
+            m[n-1-i][j] = m[n-1-j][n-1-i];
+            m[n-1-j][n-1-i] = m[i][n-1-j];
+            m[i][n-1-j] = t;
+        }
+    }
 }
