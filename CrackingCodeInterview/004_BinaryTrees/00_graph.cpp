@@ -6,37 +6,54 @@ to any children.
 */
 
 #include <vector>
+#include <unordered_set>
 #include <deque>
 
+using Vertex = int;
+
 struct Node {
-    int value = 0;
-    Node* parent = nullptr;
-    std::vector<Node*> children;
+    Vertex v = 0;
+    std::vector<Vertex> links;
 };
 
-Node* dfs(Node* from, int value) {
-    if (!from) return nullptr;
-    if (from->value == value) return from;
-    for (Node* v : from->children) {
-        Node* res = dfs(v);
+using Graph = std::vector<Node>;
+
+using namespace std;
+
+Node* dfs(const Graph& graph, Vertex from, Vertex to, unordered_set<Vertex>& visited) {
+    if (graph.empty()) return nullptr;
+    
+    if (from == to) return &graph[from];
+    
+    visited.insert(from);
+    for (auto v : graph[from].links) {
+        if (visited.count(v)) continue;
+        visited.insert(v);
+        auto res = dfs(graph, v, to);
         if (res) return res;
     }
     return nullptr;
 }
 
-Node* bfs(Node* from, int value) {
-    if (!from) return;
-    using std::deque;
-    deque<Node*> cache;
+Node* bfs(const Graph& graph, Vertex from, Vertex to) {
+    is (graph.empty()) return nullptr;
+    
+    if (from == to) return &graph[from];
+    unordered_set<Vertex> visited;
+    visited.insert(from);
+    deque<Vertex> cache;
     cache.push_back(from);
     while (!cache.empty()) {
-        node* n = cache.front();
+        Vertex v = cache.front();
         cache.pop_front();
-        if (n->value == value) return n;
-        for (Node* c : n->children) {
-            cache.push_back(c);
+        if (visited.count(v)) continue;
+        if (v == to) return &graph[v];
+        visited.insert(v);
+        
+        for (Vertex c : graph[v].links) {
+            if (!visited.count(c)) {
+                cache.push_back(c);
+            }
         }
     }
-    return nullptr;    
 }
-
