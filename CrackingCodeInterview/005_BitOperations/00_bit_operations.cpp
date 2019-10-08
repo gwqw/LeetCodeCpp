@@ -22,11 +22,7 @@ void switch_bit(int& num, int pos) {
 void print_bits(int num, std::ostream& out) {
   std::string s;
   while (num) {
-    if (num % 2) {
-      s += '1';
-    } else {
-      s += '0';
-    }
+    s += (num % 2) ? '1' : '0';
     num /= 2;
   }   
   std::reverse(s.begin(), s.end());
