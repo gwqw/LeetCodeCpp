@@ -25,11 +25,18 @@ Note: The given binary tree has not more than 10000 nodes. The height of the tre
 
 Algo:
 1) Lets start from the root:
-    if left == node:
-        ml = node + long(left, node_value)
-    else:
-        ml = long(left)
-    if 
+    get_max_route(root):
+        ml = get_max_route(left)
+        mr = get_max_route(right)
+        int nm = 0
+        if left and left == value:
+            nm += ml
+        if right and right == value:
+            nm += mr
+        max_path = max(max_path, nm)
+        return max(ml, mr)+1
+        
+        
 */
 
 /**
@@ -44,6 +51,24 @@ Algo:
 class Solution {
 public:
     int longestUnivaluePath(TreeNode* root) {
-        return 0;
+        if (!root) return 0;
+        std::max(get_max_route(root), max_path);
+        return max_path;
     }
+    int get_max_route(TreeNode* node) {
+        if (!node) return 0;
+        int ml = get_max_route(node->left);
+        int mr = get_max_route(node->right);
+        int al = 0;
+        int ar = 0;
+        if (node->left && node->left->val == node->val) {
+            al = ml+1;
+        }
+        if (node->right && node->right->val == node->val) {
+            ar = mr+1;
+        }
+        if (al+ar > max_path) max_path = al+ar;
+        return std::max(al, ar);
+    }
+    int max_path = 0;
 };
