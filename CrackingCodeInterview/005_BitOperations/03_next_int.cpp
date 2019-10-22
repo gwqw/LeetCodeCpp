@@ -19,7 +19,7 @@ Algo2:
     0 -> 0, 0
     largest:
     find first 0 (from backward) and not the real first bit: 
-    if it is not the last:      10010101>0<_1_111111
+    if found:                   10010101>0<_1_111111
         swap 0 with right 1:    10010101_1_>0<111111
     else:                               111111      110
         insert 0 in second position     1011111     1010
@@ -31,6 +31,16 @@ Algo2:
         else:   111
         it is the smallest
 */
+
+void print_bits(int num, std::ostream& out) {
+  std::string s;
+  while (num) {
+    s += (num % 2) ? '1' : '0';
+    num /= 2;
+  }   
+  std::reverse(s.begin(), s.end());
+  out << s;
+}
 
 bool check_bit(int num, int pos) {
   return num & (1 << pos);
@@ -50,13 +60,14 @@ void switch_bit(int& num, int pos) {
 
 std::pair<int,int> get_next_ints(int num) {
     if (nums == 0) return make_pair(0,0);
+    constexpr int MAX_POS = 31;
     
     int small = num;
     int large = num;
     
     //smallest
     int one_pos = 0;
-    for (int pos = 0; pos < 31; ++pos) {
+    for (int pos = 0; pos < MAX_POS; ++pos) {
         if (check_bit(num, pos) && pos) {
             one_pos = pos;
             break;
@@ -69,4 +80,21 @@ std::pair<int,int> get_next_ints(int num) {
     }
     
     // largest
+    int zero_pos = 0;
+    for (int pos = 0; pos < MAX_POS; ++pos) {
+        if (!check_bit(num,pos) && pos) {
+            zero_pos = pos;
+            break;
+        }
+    }
+    if (one_pos && one_pos != MAX_POS-1) {
+        set_bit(large, zero_pos);
+        unset_bit(large, --zero_pos);
+    } else if (one_pos ) {
+        
+    } else {
+        unset_bit(large, zero_pos);
+        set_bit(large, ++zero_pos);        
+    }
+    return make_pair(small, large);
 }
