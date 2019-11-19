@@ -42,6 +42,15 @@ Algo1: use dictionary as a criteria of number presence: O(N1+N2) + O(N2)
 - create dict from second array: key = num, value = index (is it needed)
 - go through first array and search needed second number in dict
 
+Algo2: sort second_array O(N2logN2 + N1logN2)
+- calc difference: diff = (Sum1 - Sum2) / 2;
+- sort second
+- go through first array and binary_search needed second number in vect2
+
+Algo3: sort both arrays and save current index in b for each search
+- calc difference: diff = (Sum1 - Sum2) / 2;
+- sort both
+- go through first array and search needed second number in vect2 from (prev_idx) and update prev_idx
 */
 
 const int ZERO = [](){
@@ -60,6 +69,24 @@ public:
         for (auto v : a) {
             if (dict2.count(v-diff)) {
                 return {v, v-diff};
+            }
+        }
+        assert(false);
+        return {};
+    }
+};
+
+class Solution {
+public:
+    vector<int> fairCandySwap(const vector<int>& a, vector<int>& b) {
+        int sum1 = accumulate(a.begin(), a.end(), 0);
+        int sum2 = accumulate(b.begin(), b.end(), 0);
+        int diff = (sum1 - sum2)/2;
+        sort(b.begin(), b.end());
+        for (auto v : a) {
+            int v2 = v - diff;
+            if (binary_search(b.begin(), b.end(), v2)) {
+                return {v, v2};
             }
         }
         assert(false);
