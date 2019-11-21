@@ -21,6 +21,12 @@ Algo1: O(N)
     - n = s
     - s = 0
   - return s
+  
+Algo2: O(1)
+n - dig_sum = sum(di * (10^i-1)) => (n - dig_sum) % 9 = 0 => n % 9 == dig_sum % 9
+if n == 0: return 0
+if n % 9 == 0: return 9
+else: return n % 9
 */
 
 class Solution {
@@ -30,7 +36,6 @@ public:
         while (true) {
             while (num > 0) {
                 sum += num % 10;
-                if (sum
                 num /= 10;
             }
             if (sum < 10) break;
@@ -40,3 +45,24 @@ public:
         return sum;
     }
 };
+
+class Solution {
+public:
+    int addDigits(int n) {
+        if (n == 0) return 0;
+        if (n % 9 == 0) return 9;
+        else return n % 9;
+    }
+};
+
+class Solution {
+public:
+    int addDigits(int n) {
+        if (n == 0) return 0;
+        n %= 9;
+        if (n == 0) return 9;
+        else return n;
+    }
+};
+
+
