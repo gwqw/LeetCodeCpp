@@ -25,7 +25,7 @@ Input:     1         1
         [1,2,1],   [1,1,2]
 Output: false
 
-Algo:
+Algo: pre-order
 1. Recursive: O(N), O(logN) or O(N) because of recursion
     true if 
     - both are NULL
