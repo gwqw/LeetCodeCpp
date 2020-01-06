@@ -15,7 +15,7 @@ for every a[i] find (target - a[i]) in unordered_map and get idx j
 if i != j: return {i,j}
 
 Algo2: O(N), O(N)
-the same, but seaarch at the same time, when adding (first -- search, second -- add)
+the same, but seach at the same time, when adding (first -- search, second -- add)
 
 feature: think about over INT_MIN && INT_MAX
 */
