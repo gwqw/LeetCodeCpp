@@ -9,8 +9,8 @@ Explanation: [4,-1,2,1] has the largest sum = 6.
 Follow up:
 If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
 
-algo O(N^2)
-max_sum = -2147483647
+Algo: naive O(N^2)
+max_sum = INT_MIN
 for i=0 to n:
   sum = 0
   for l=i to n-i:
@@ -19,32 +19,33 @@ for i=0 to n:
       max_sum = sum
 return max_sum
 
-algo O(N)
-max_sum = -2147483647
+Algo: dynamical O(N) + O(1)
+for every position take max this position or best before + this position
+max_sum = INT_MIN or first element
 sum  = 0
 for i in n:
-  sum += v[i]
-  if max_sum < sum: max_sum = sum
-  if sum < 0: sum = 0
+  sum += i # calc current sum
+  if max_sum < sum: max_sum = sum # update max, if needed
+  if sum < 0: sum = 0 # if sum < 0 -- better to throw it out
 return max_sum
 
 */
 
 class Solution {
 public:
-    int maxSubArray(vector<int>& nums) {
-      if (nums.empty()) return 0;
-      int max_sum = -2147483647;
-      int sum = 0;
-      for (int i : nums) {
-        sum += i;
-        if (sum > max_sum) {
-          max_sum = sum;
+    int maxSubArray(const vector<int>& nums) {
+        if (nums.empty()) return 0;
+        int max_sum = nums[0];
+        int sum = 0;
+        for (auto i : nums) {
+            sum += i;
+            if (sum > max_sum) {
+                max_sum = sum;
+            }
+            if (sum < 0) {
+                sum = 0;
+            }        
         }
-        if (sum < 0) {
-          sum = 0;
-        }        
-      }
-      return max_sum;
+        return max_sum;
     }
 };
