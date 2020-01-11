@@ -20,6 +20,12 @@ Input: head = [1], pos = -1
 Output: false
 Explanation: There is no cycle in the linked list.
 
+Algo:
+- use 2 iterators: one goes with double speed
+- if they found nullptr -- no cycle
+- if they meet -- cycle
+
+
 */
 
 /**
@@ -33,6 +39,18 @@ Explanation: There is no cycle in the linked list.
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        
+        if (!head) return false;
+        ListNode* ds = head;
+        while (true) {
+            if (!ds->next || !ds->next->next) {
+                return false;
+            }
+            ds = ds->next->next;
+            head = head->next;
+            if (ds == head) {
+                return true;
+            }
+        }
+        assert(false);
     }
 };
