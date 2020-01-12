@@ -41,6 +41,19 @@ Algo3 - copy part:
         n-1-k -> n-1
         n-1-k-i -> n-1-i
     move back tarr -> to the begin 
+    
+Algo4: move each element to his place: O(N) + O(1)
+- new_i = (i+k) % n
+- previous save to tmp and move further
+- stop after n moves
+
+Algo5: 3 reverse: O(N) + O(1)
+- reverse whole array
+- reverse [0..k)
+- reverse [k..n)
+
+Algo6: std::rotate
+
 */
 
 class Solution {
@@ -91,3 +104,79 @@ public:
         std::move(tarr.begin(), tarr.end(), nums.begin());
     }
 };
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if (nums.empty()) return;
+        auto n = nums.size();
+        k %= n;
+        if (n == 1 || k == 0) return;
+        
+        size_t idx = 0;
+        size_t init_idx = 0;
+        int t = nums[idx];
+        for (size_t i = 0; i < n; ++i) {
+            idx = (idx + k) % n;
+            swap(t, nums[idx]);
+            if (idx == init_idx) {
+                idx = ++init_idx;
+                t = nums[idx];
+            }
+        }
+    }
+};
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        if (nums.empty()) return;
+        auto n = nums.size();
+        k %= n;
+        if (n == 1 || k == 0) return;
+        
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin() + k);
+        reverse(nums.begin() + k, nums.end());
+    }
+};
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        auto n = nums.size();
+        if (n == 1) return;
+        k %= n;
+        if (k == 0) return;
+        
+        std::rotate(nums.begin(), nums.begin() + (n-k), nums.end());
+    }
+};
+
+
+/*
+k = 3
+1 2 3 4 5 6 7 t = 1, i = 0
+1 2 3 1 5 6 7 t = 4, i = 3
+1 2 3 1 5 6 4 t = 7, i = 6
+1 2 7 1 5 6 4 t = 3, i = 2
+1 2 7 1 5 3 4 t = 6, i = 5
+1 6 7 1 5 3 4 t = 2, i = 1
+1 6 7 1 2 3 4 t = 5, i = 4
+5 6 7 1 2 3 4 t = 1, i = 0
+    
+
+[1,2,3,4,5,6,7]
+3
+[1,2,3,4,5,6]
+2
+[1,2]
+1
+[1,2,3,4]
+2
+[1,2,3,4]
+3
+
+*/
+
+
