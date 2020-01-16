@@ -36,7 +36,7 @@ Algo:
         max_path = max(max_path, nm)
         return max(ml, mr)+1
         
-        
+ 
 */
 
 /**
@@ -69,6 +69,29 @@ public:
         }
         if (al+ar > max_path) max_path = al+ar;
         return std::max(al, ar);
+    }
+    int max_path = 0;
+};
+ 
+class Solution {
+public:
+    int longestUnivaluePath(TreeNode* root) {
+        if (!root) return 0;
+        get_max_route(root);
+        return max_path;
+    }
+    int get_max_route(TreeNode* node) {
+        if (!node) return 0;
+        int ml = get_max_route(node->left);
+        int mr = get_max_route(node->right);
+        if (node->left && node->left->val != node->val) {
+            ml = 0;
+        }
+        if (node->right && node->right->val != node->val) {
+            mr = 0;
+        }
+        if (ml+mr > max_path) max_path = ml+mr;
+        return std::max(ml, mr) + 1;
     }
     int max_path = 0;
 };

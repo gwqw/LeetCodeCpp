@@ -25,55 +25,24 @@ Output: 1
 Explanation: The two heater was placed in the position 1 and 4. 
 We need to use radius 1 standard, then all the houses can be warmed.
 
-Algo:
-    - first and last edges:
-        min_r = max(abs(H0 - h0), abs(hb - Hb))
-    - go through houses, while h_coord < next heater :
-    - store fidx, lidx
-    - r = (Hi+1 - H_i) / 2
-    - d1 = lb(fidx, lidx, r)
-    - d2 = ub(fidx, lidx, Hi+1 - r)
-    - min_r = max(min_r, d1, d2)
-
-Algo2:
-    - sort arrays O(NlogN)
-    - for every house bs closest heater and update max radius O(NlogN)
+Algo1: sort heaters and for every house use bin_search: O(NlogN) + O(1)
+- sort heaters O(NlogN)
+- for every house bs closest heater and update max radius O(NlogN)
+    
+Algo2: sort both for every house find closest heater O(NlogN) 
+- sort houses, heaters 
+- closest heater = heater[0]
+- for every house:
+    - while (heater < house):
+        ++heater
+    - min_dist = min(heater-house, prev(heater-house));
+    radius = max(min_dist, radius)
+ 
 */
 
 class Solution {
 public:
-    int findRadius(const vector<int>& houses_, const vector<int>& heaters_) {
-        std::vector<int> houses(houses_);
-        std::vector<int> heaters(heaters_);
-        if (houses.empty() || heaters.empty()) return 0;
-        std::sort(begin(houses), end(houses));
-        std::sort(begin(heaters), end(heaters));
-        int md = 0;
-        auto bit = heaters.begin();
-        for (int house : houses) {
-            auto it = upper_bound(bit, end(heaters), house);
-            // H .. h
-            if (it == end(heaters)) {
-                --it;
-                md = std::max(md, house - *it);
-        	} else if (it == begin(heaters)) {
-			// h .. H
-                md = std::max(md, *it - house);
-            } else {
-			// Hp .. h .. H
-				md = std::max(md, std::min(*it - house, house - *prev(it)));
-                bit = it;
-            }
-        }
-        return md;
-    }
-};
-
-class Solution {
-public:
-    int findRadius(const vector<int>& houses_, const vector<int>& heaters_) {
-        std::vector<int> houses(houses_);
-        std::vector<int> heaters(heaters_);
+    int findRadius(const vector<int>& houses, vector<int>& heaters) {
         if (houses.empty() || heaters.empty()) return 0;
         std::sort(begin(heaters), end(heaters));
         int md = 0;
@@ -90,6 +59,48 @@ public:
 			// Hp .. h .. H
 				md = std::max(md, std::min(*it - house, house - *prev(it)));
             }
+        }
+        return md;
+    }
+};
+
+class Solution {
+public:
+    int findRadius(vector<int>& houses, vector<int>& heaters) {
+        std::sort(begin(heaters), end(heaters));
+        std::sort(begin(houses), end(houses));
+        int md = 0;
+        int cur_hidx = 0;
+        for (int house : houses) {
+            while (cur_hidx+1 != heaters.size() && heaters[cur_hidx] < house) {
+                ++cur_hidx;
+            }
+            int min_dst = abs(heaters[cur_hidx] - house);
+            if (cur_hidx > 0) {
+                min_dst = min(min_dst, house - heaters[cur_hidx-1]);
+            }
+            md = max(md, min_dst);
+        }
+        return md;
+    }
+};
+
+class Solution {
+public:
+    int findRadius(vector<int>& houses, vector<int>& heaters) {
+        std::sort(begin(heaters), end(heaters));
+        std::sort(begin(houses), end(houses));
+        int md = 0;
+        int cur_hidx = 0;
+        for (int house : houses) {
+            while (cur_hidx+1 != heaters.size() && heaters[cur_hidx+1] < house) {
+                ++cur_hidx;
+            }
+            int min_dst = abs(house - heaters[cur_hidx]);
+            if (cur_hidx+1 != heaters.size()) {
+                min_dst = min(min_dst, abs(heaters[cur_hidx+1] - house));
+            }
+            md = max(md, min_dst);
         }
         return md;
     }

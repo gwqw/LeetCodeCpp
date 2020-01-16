@@ -17,7 +17,7 @@ Explanation: You can't get a non-decreasing array by modify at most one element.
 
 Note: The n belongs to [1, 10,000]. 
 
-Algo:
+Algo: O(N) + O(1)
     we have 2 situation
     1) /U/ grow, one decay and next grow
     2) /n/ grow, one rise and nex grow
@@ -33,12 +33,21 @@ Algo:
         if is_one: return false
         is_one = true
     return true
+    
+Algo2: 2 itterators (from left and from right): O(N) + O(1)
+- find li -- index, where ends sorted sequence from the left
+- find ri -- index, where ends sorted sequence from the right
+- if li+1 == nums.size: return true
+- if li+1 != ri: return false
+- return true if remove this element: sequence will be sorted: 
+    - li > 0 and nums[li-1] <= nums[ri] or
+    - ri +1 != nums.size() and nums[li] <= nums[ri+1]
 
 */
 
 class Solution {
 public:
-    bool checkPossibility(vector<int>& nums) {
+    bool checkPossibility(const vector<int>& nums) {
         if (nums.size() < 3) return true;
         // check first two nums case
         int p;
@@ -64,5 +73,24 @@ public:
             else nums[i+2] = c;            
         }
         return true;
+    }
+};
+
+class Solution {
+public:
+    bool checkPossibility(const vector<int>& nums) {
+        if (nums.size() <= 2) return true;
+        size_t li = 0;
+        for (; li+1 < nums.size(); ++li) {
+            if (nums[li] > nums[li+1]) break;
+        }
+        if (li+1 == nums.size()) return true;
+        size_t ri = nums.size();
+        for (; ri-- - 1 > 0; ) {
+            if (nums[ri] < nums[ri-1]) break;
+        }
+        if (li + 1 != ri) return false;
+        return (li == 0 || nums[li-1] <= nums[ri]) ||
+               (ri+1 == nums.size() || nums[li] <= nums[ri+1]);
     }
 };
