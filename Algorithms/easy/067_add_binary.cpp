@@ -52,3 +52,30 @@ public:
     }
 };
 
+class Solution {
+public:
+    string addBinary(const string& a, const string& b) {
+      string res;
+      res.reserve(max(a.size(), b.size())+1);
+      int s = 0;
+      for (int i = (int)a.size()-1, j = (int)b.size()-1; i >= 0 || j >= 0; --i, --j) {
+        int x = 0;
+        if (i >= 0){
+            x = a[i] == '1' ? 1 : 0;
+        }
+        int y = 0;
+        if (j >= 0) {
+          y = b[j] == '1' ? 1 : 0;
+        }
+        int r = x + y + s;
+        s = r / 2;
+        res.push_back(r % 2 == 0 ? '0' : '1');
+      }
+      if (s > 0) {
+        res.push_back('1');
+      }
+      reverse(res.begin(), res.end());
+      return res;
+    }
+};
+
