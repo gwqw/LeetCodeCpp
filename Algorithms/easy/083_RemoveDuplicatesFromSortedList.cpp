@@ -10,16 +10,14 @@ Example 2:
 Input: 1->1->2->3->3
 Output: 1->2->3
 
-Algo:
-while ptr != NULL:
+Algo: O(N), O(1)
+while ptr:
   if ptr->next and ptr->val == ptr->next->val:
     d_ptr = ptr->next
     ptr->next = d_ptr->next
     delete d_ptr
   else:
     ptr = ptr->next
-    
-O(N), O(1)
 */
 
 /**
@@ -36,6 +34,25 @@ public:
       ListNode* ptr = head;
       while (ptr != nullptr) {
         if (ptr->next && ptr->val == ptr->next->val) {
+          ListNode* d_ptr = ptr->next;
+          ptr->next = d_ptr->next;
+          delete d_ptr;
+        }
+        else {
+          ptr = ptr->next;
+        }
+      }
+      return head;
+    }
+};
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+      if (!head) return nullptr;
+      ListNode* ptr = head;
+      while (ptr->next) {
+        if (ptr->val == ptr->next->val) {
           ListNode* d_ptr = ptr->next;
           ptr->next = d_ptr->next;
           delete d_ptr;
