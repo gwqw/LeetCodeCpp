@@ -17,7 +17,7 @@ Note:
 Bonus points if you could solve it both recursively and iteratively.
 
 Algo:
-1. Recursive: O(N), O(logN) or O(N)
+1. Recursive: O(N), O(height)
     left tree are sym equal to the right
 2. Iterative: O(N), O(logN) or O(N)
     use queue or deque
@@ -50,3 +50,29 @@ public:
     }
 };
 
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (!root) return true;
+        stack<pair<TreeNode*, TreeNode*>> st;
+        if (root->left && root->right) {
+            st.emplace(root->left, root->right);
+        } else if (root->left || root->right) {
+            return false;
+        }        
+        while (!st.empty()) {
+            auto [left, right] = st.top();
+            st.pop();
+            if (left->val != right->val) return false;
+            if (!left->left && right->right || left->left && !right->right) return false;
+            if (!left->right && right->left || left->right && !right->left) return false;
+            if (left->left) {
+                st.emplace(left->left, right->right);
+            }
+            if (left->right) {
+                st.emplace(left->right, right->left);
+            }
+        }
+        return true;
+    }
+};
