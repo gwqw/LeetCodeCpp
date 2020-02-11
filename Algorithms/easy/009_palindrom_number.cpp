@@ -12,32 +12,26 @@
         Input: 10
         Output: false
         Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+        
+Algo: get reverse number and cmp original: O(N?) + O(N?)
+- if number < 0 return false
+- pop digit (last)
+- add it to the end of new number
+- compare new_number with original number
 */
 
 class Solution {
 public:
-    bool isPalindrome(int x) {
-      if (x < 0)  return false;
-      if (x == 0) return true;
-      int intput = x, res = 0;
-      while (x > 0) {
-        char digit = x % 10;
-        res = res*10 + digit;
-      }
-      return (input == res);
+  bool isPalindrome(int x) {
+    if (x < 0)  return false;
+    if (x == 0) return true;
+    int input = x;
+    int64_t res = 0;
+    while (x > 0) {
+      char digit = x % 10;
+      x /= 10;
+      res = res*10 + digit;
     }
-};
-
-class Solution {
-public:
-    bool isPalindrome(int x) {
-      if (x < 0)  return false;
-      if (x == 0) return true;
-      int intput = x, res = 0;
-      while (x > 0) {
-        char digit = x % 10;
-        res = res*10 + digit;
-      }
-      return (input == res);
-    }
+    return (input == res);
+  }
 };
