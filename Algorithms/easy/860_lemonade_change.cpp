@@ -43,7 +43,7 @@ Note:
 0 <= bills.length <= 10000
 bills[i] will be either 5, 10.
 
-Algo:
+Algo: O(N) + O(1)
 - make 2 vars c5 and c10
 - if 5: inc c5
 - if 10: inc c10, dec c5
