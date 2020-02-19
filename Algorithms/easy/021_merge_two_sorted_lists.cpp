@@ -16,9 +16,11 @@ while n and l2
     l2 = l2->next
     l1 = l1->next
     l1->next = n       
-if not l2:
+if l2:
   l1->next = l2
 
+Algo2: make new list and fill it's next fields
+- use ref to node
 */
 
 
