@@ -39,22 +39,69 @@ Example 5:
 Input: "MCMXCIV"
 Output: 1994
 Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+Algo:
+- make dict: char -> num
+- go through string from second char [1]
+- check if prev digit > curr digit
+    - add prev digit
+- else:
+    - substruct prev digit
+- add last digit to res
 */
 
 class Solution {
 public:
-    int romanToInt(string s) {
+    int romanToInt(const string& s) {
         int res = 0;
         if (s.empty()) {return res;}
         for (auto it = next(begin(s)); it < end(s); ++it) {
-            if (r2i[*prev(it)] >= r2i[*it]) {
-                res += r2i[*prev(it)];
+            if (r2i.at(*prev(it)) >= r2i.at(*it)) {
+                res += r2i.at(*prev(it));
             } else {
-                res -= r2i[*prev(it)];
+                res -= r2i.at(*prev(it));
             }
         }
-        res += r2i[s.back()];
+        res += r2i.at(s.back());
         return res;
     }
-    unordered_map<char, int> r2i = {{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
+private:
+    const static unordered_map<char, int> r2i;
 };
+const unordered_map<char, int> Solution::r2i = {{'I', 1}, {'V', 5}, {'X', 10}, 
+    {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
+
+class Solution {
+public:
+    int romanToInt(const string& s) {
+        int res = 0;
+        if (s.empty()) {return res;}
+        int p = r2i(*s.begin());
+        for (auto it = next(begin(s)); it < end(s); ++it) {
+            int c = r2i(*it);
+            if (p >= c) {
+                res += p;
+            } else {
+                res -= p;
+            }
+            p = c;
+        }
+        res += r2i(s.back());
+        return res;
+    }
+    
+private:
+    static int r2i(char c) {
+        switch (c) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+        }
+        return 0;
+    }
+};
+
