@@ -16,6 +16,12 @@ You may assume the string contains only lowercase alphabets.
 Follow up:
 What if the inputs contain unicode characters? 
 How would you adapt your solution to such case?
+
+Algo1: use dict: O(N) + O(alphabet)
+- if have diff sizes: return false
+
+Algo2: sort: O(NlogN) + O(1..logN)
+- we can change strings
 */
 
 class Solution {
@@ -35,4 +41,33 @@ public:
         return true;
     }
 };
+class Solution {
+public:
+    bool isAnagram(const string& s, const string& t) {
+        if (s.size() != t.size()) return false;
+        
+        array<int, 26> counter;
+        fill(counter.begin(), counter.end(), 0);
+        for (auto c : s) {
+            ++counter[c - 'a'];
+        }
+        
+        for (auto c : t) {
+            if (counter[c - 'a'] == 0) return false;
+            --counter[c - 'a'];
+        }
+        return true;
+    }
+};
 
+class Solution {
+public:
+    bool isAnagram(string& s, string& t) {
+        if (s.size() != t.size()) return false;
+        
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
+        
+        return s == t;
+    }
+};

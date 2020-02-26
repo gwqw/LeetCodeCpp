@@ -21,6 +21,13 @@ The linked list will have at least two elements.
 All of the nodes' values will be unique.
 The given node will not be the tail and it will always be a valid node of the linked list.
 Do not return anything from your function.
+
+Algo1: naive: O(N) + O(1)
+- shift all value to the right
+
+Algo2: O(1) + O(1)
+- shift only next value and move pointers: next = next->next
+
 */
 
 /**
@@ -39,8 +46,20 @@ public:
             node->val = node->next->val;
             node = node->next;
         }
+        node->val = node->next->val;
         delete node->next;
         node->next = nullptr;        
+    }
+};
+
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        if (!node || !node->next) return;
+        node->val = node->next->val;
+        auto del = node->next;
+        node->next = node->next->next;
+        delete del;
     }
 };
 
