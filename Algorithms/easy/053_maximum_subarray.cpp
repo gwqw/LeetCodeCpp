@@ -1,8 +1,8 @@
 /**
-Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+Given an integer array nums, find the contiguous subarray (containing at least one number) 
+which has the largest sum and return its sum.
 
 Example:
-
 Input: [-2,1,-3,4,-1,2,1,-5,4],
 Output: 6
 Explanation: [4,-1,2,1] has the largest sum = 6.
@@ -19,7 +19,7 @@ for i=0 to n:
       max_sum = sum
 return max_sum
 
-Algo: dynamical O(N) + O(1)
+Algo: dynamic O(N) + O(1)
 for every position take max this position or best before + this position
 max_sum = INT_MIN or first element
 sum  = 0

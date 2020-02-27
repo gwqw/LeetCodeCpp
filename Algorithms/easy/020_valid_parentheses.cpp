@@ -25,11 +25,37 @@ Output: false
 Example 5:
 Input: "{[]}"
 Output: true
+
+Algo: use stack
 */
 
 class Solution {
 public:
-    bool isValid(string s) {
-        
+  bool isValid(string s) {
+    enum class BR {round, square, fig};
+    vector<BR> st;    
+    st.reserve(s.size());
+    for (auto ch : s) {
+      if (ch == '(') {
+        st.push_back(BR::round);
+      } else if (ch == '[') {
+        st.push_back(BR::square);
+      } else if (ch == '{') {
+        st.push_back(BR::fig);
+      } else if (ch == ')') {
+        if (!st.empty() && st.back() == BR::round) {
+          st.pop_back();
+        } else {return false;}
+      } else if (ch == ']') {
+        if (!st.empty() && st.back() == BR::square) {
+          st.pop_back();
+        } else {return false;}
+      } else if (ch == '}') {
+        if (!st.empty() && st.back() == BR::fig) {
+          st.pop_back();
+        } else {return false;}
+      }      
     }
+    return st.empty();
+  }
 };

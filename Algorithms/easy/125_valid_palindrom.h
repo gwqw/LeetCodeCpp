@@ -18,7 +18,7 @@ Algo1: naive O(N) + O(N)
 - create new string with only letters and to lower case
 - compare first part with second
 
-Algo2: quick_sort: O(N) + O(1)
+Algo2: 2terators(reverse order): O(N) + O(1)
 - we have 2 iterators: b and e
 - go through string while !letter: ++b and --e
 - if b >= e: return true
