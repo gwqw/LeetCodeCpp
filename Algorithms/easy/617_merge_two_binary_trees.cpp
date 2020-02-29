@@ -36,6 +36,11 @@ Algo: dfs
 - elif (t2)
     ...
 - return node
+
+Algo2: use same node from Tree (unchange) like Final in Java
+
+Algo3: use one of tree nodes
+
 */
 
 /**
@@ -67,7 +72,6 @@ public:
         return res;
     }
 };
-
 class Solution {
 public:
     TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
@@ -90,3 +94,38 @@ public:
     }
 };
 
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+        //if (!t1 && !t2) return nullptr;
+        if (!t1) {
+            return t2;
+        }
+        if (!t2) {
+            return t1;
+        }
+        TreeNode* res = new TreeNode(t1->val + t2->val);
+        res->left = mergeTrees(t1->left, t2->left);
+        res->right = mergeTrees(t1->right, t2->right);
+        
+        return res;
+    }
+};
+
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+        if (!t1) {
+            return t2;
+        }
+        if (!t2) {
+            return t1;
+        }
+        
+        t1->val += t2->val;
+        t1->left = mergeTrees(t1->left, t2->left);
+        t1->right = mergeTrees(t1->right, t2->right);
+        
+        return t1;
+    }
+};
