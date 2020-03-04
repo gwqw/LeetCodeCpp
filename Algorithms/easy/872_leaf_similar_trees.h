@@ -17,7 +17,7 @@ can be recursive, can be iterative
 - repeat for tree2
 - cmp lists
 
-Algo2: Go throug 2 trees in parallel: O(N1 + N2) + O(H1 + H2)
+Algo2: Go through 2 trees in parallel: O(N1 + N2) + O(H1 + H2)
 - go dfs (iterative) through 2 trees
 - and chek leaf1 == leaf2
 

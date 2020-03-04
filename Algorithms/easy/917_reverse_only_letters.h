@@ -20,7 +20,7 @@ S.length <= 100
 33 <= S[i].ASCIIcode <= 122 
 S doesn't contain \ or "
 
-Algo1 (in-place): quick-sort (in place): O(N) + O(1)
+Algo1 (in-place): 2itterators (in place): O(N) + O(1)
 - we have 2 iterators: b and e
 - go through string ++b and --e while !cond (for b and e) and do nothing
 - if stop and if b < e: swap *b and *e

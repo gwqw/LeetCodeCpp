@@ -51,9 +51,9 @@ Algo2:
 100010001000 n
 010001000100 n >> 1
 110011001100 n |= n >> 1
-Итого уменьшаем число 00 подряд на 1
+Total: decrease 0 sequent by 1
 
-Нужно убрать последнии 00, т.к. они будут мешать
+Need to delete last 00, because they will bother
 10000 n
 01111 n-1
 11111 n | n-1

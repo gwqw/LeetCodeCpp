@@ -19,7 +19,7 @@ Algo1: O(N) + O(N)
     1. if is_even res[i]; i+2
     2. if is_odd res[j];j+2
     
-Algo2: use quick sort:
+Algo2: 2itterators, use quick sort:
     2 iterators: even_idx and odd_idx:
     - even goes while a[i] is even or isn't end: += 2
     - odd goes while a[j] is odd or isn't end: += 2
