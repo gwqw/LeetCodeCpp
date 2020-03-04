@@ -49,14 +49,14 @@ public:
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        auto sze = getSize(head);
-        auto new_head = getHalfPtr(head, sze);
+        auto sze = getListSize(head);
+        auto new_head = shift(head, sze/2);
         new_head = reverse(new_head);
         return cmp_lists(head, new_head);
     }
     
 private:
-    static size_t getListSize(TreeNode* head) {
+    static size_t getListSize(ListNode* head) {
         size_t sze = 0;
         while (head) {
             ++sze;
@@ -65,43 +65,37 @@ private:
         return sze;
     }
     
-    TreeNode* getHalfPtr(TreeNode* head, size_t sze) {
-        while (sze != 0) {
+    ListNode* shift(ListNode* head, size_t sze) {
+        while (sze-->0) {
             head = head->next;
-            --sze;
         }
         return head;
     }
     
-    TreeNode* reverse(TreeNode* head) {
+    ListNode* reverse(ListNode* head) {
         if (!head) return nullptr;
-        TreeNode* new_head = nullptr;
-        TreeNode* next = head;
-        while (head->next) {
-            next = head->next;
+        ListNode* new_head = nullptr;
+        while (head) {
+            auto next = head->next;
             head->next = new_head;
             new_head = head;
             head = next;
         }
-        if (head) {
-            head->next = new_head;
-        }
-        return head;
+        return new_head;
     }
     
-    bool cmp_lists(TreeNode* head, TreeNode* new_head) {
-        while (head) {
+    bool cmp_lists(ListNode* head, ListNode* new_head) {
+        while (head && new_head) {
             if (head->val != new_head->val) return false;
-            head = nead->next;
+            head = head->next;
             new_head = new_head->next;
         }
         return true;
     }
-    
-    /*
-        1 -> 2 -> 3 -> nullptr
-        h    n
-    
-    */
-    
 };
+
+/*
+    1 -> 2 -> 3 -> nullptr
+    h    n
+
+*/
