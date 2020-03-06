@@ -26,9 +26,16 @@ Algo: O(NlogN) + O(1)
 class Solution {
 public:
     bool searchMatrix(const vector<vector<int>>& matrix, int target) {
-        auto max_row_it = find_max_row();
+        if (matrix.empty() || matrix[0].empty()) return false;
+        //auto max_row_it = find_max_row();
+        auto max_row_it = upper_bound(matrix.begin(), matrix.end(), target,
+            [](int target, const auto& row){
+                return target < row[0];
+            }
         );
-        for (auto rit = matrix.begin(); rit != max_row_it; ++rit) {
+        
+        for (auto rit = max_row_it; rit != matrix.begin(); --rit) {
+            --rit;
             auto& row = *rit;
             auto it = lower_bound(row.begin(), row.end(), target);
             if (it != row.end() && *it == target) return true;
