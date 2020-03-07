@@ -16,26 +16,30 @@ Consider the following matrix:
 Given target = 5, return true.
 Given target = 20, return false.
 
-Algo: O(NlogN) + O(1)
+Algo1: O(NlogN) + O(1)
 - get max row - binary search -- upper_bound
 - for r in 0, max_row
     - use binary_search to find value: lower_bound
+
+Algo2: 
+- find first lower_bound in first row
+- if el == target: return true
+- if el < target: go down
+- if el > target: go left
     
 */
 
+//256ms
 class Solution {
 public:
     bool searchMatrix(const vector<vector<int>>& matrix, int target) {
         if (matrix.empty() || matrix[0].empty()) return false;
-        //auto max_row_it = find_max_row();
         auto max_row_it = upper_bound(matrix.begin(), matrix.end(), target,
             [](int target, const auto& row){
                 return target < row[0];
             }
         );
-        
-        for (auto rit = max_row_it; rit != matrix.begin(); --rit) {
-            --rit;
+        for (auto rit = matrix.begin(); rit != max_row_it; ++rit) {
             auto& row = *rit;
             auto it = lower_bound(row.begin(), row.end(), target);
             if (it != row.end() && *it == target) return true;
@@ -43,5 +47,53 @@ public:
         return false;
     }
 };
+
+//68ms
+class Solution {
+public:
+    bool searchMatrix(const vector<vector<int>>& matrix, int target) {
+        if (matrix.empty() || matrix[0].empty()) return false;
+        size_t cidx = distance(matrix[0].begin(),
+            lower_bound(matrix[0].begin(), matrix[0].end(), target)
+        );
+        if (cidx == 0) {
+            return matrix[0][cidx] == target;
+        }
+        if (cidx == matrix[0].size()) --cidx;
+        size_t ridx = 0;
+        while (ridx < matrix.size()) {
+            if (matrix[ridx][cidx] > target) {
+                if (cidx == 0) return false; 
+                --cidx;
+            } else if (matrix[ridx][cidx] < target) {
+                ++ridx;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+//48ms
+class Solution {
+public:
+    bool searchMatrix(const vector<vector<int>>& matrix, int target) {
+        if (matrix.empty() || matrix[0].empty()) return false;
+        size_t cidx = matrix[0].size() - 1;
+        size_t ridx = 0;
+        while (ridx < matrix.size()) {
+            if (matrix[ridx][cidx] > target) {
+                if (cidx == 0) return false; 
+                --cidx;
+            } else if (matrix[ridx][cidx] < target) {
+                ++ridx;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
 
 
