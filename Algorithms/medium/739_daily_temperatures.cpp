@@ -17,7 +17,7 @@ Each temperature will be an integer in the range [30, 100].
 75, 2
 76, 6
 
-Algo: O(N) + O(N)
+Algo: O(N) + O(N, tempRange)
 - make stack<pair<value, idx>>
 - go from the end
 - look for greater value in stack (pop less or equal)
@@ -42,7 +42,7 @@ Algo: O(N) + O(N)
 75, 2
 76, 6
 
-Algo: dynamic programing
+Algo: dynamic programing: O(N) + O(1)
 - go from the end
 - search greater to the right
     - if next temp > cur:
