@@ -18,23 +18,55 @@ You must use only constant, O(1) extra space.
 Your runtime complexity should be less than O(n2).
 There is only one duplicate number in the array, but it could be repeated more than once.
 
-Algo:
+Algo1: binary_search
+values are 1..N
+take mid
 
-A 1 i k
-B 1 i i
-C 1^2 i^2 k^2
-D 1^2 i^2 i^2
- 
-D1 = A - B = k-i
-C - D = k^2-i^2 = (k-i)(k+i)
-D2 = (C-D)/(A-B) = k+i
-k = (D1+D2)/2
-i = (D2 - D1)/2
+Algo2: Floyd cycle detection
+tortoise and hare
+- tortoise = f(0)
+- hare = f(f(0))
+- while tortoise != hare:
+    - tortoise = f(tortoise)
+    - hare = f(f(hare))
+# find point
+- mu = 0
+- tortoise = 0
+- while tortoise != hare:
+    - tortoise = f(tortoise)
+    - hare = f(hare)
+    - ++mu
 */
 
 class Solution {
 public:
     int findDuplicate(const vector<int>& nums) {
+        auto tort = step(nums.begin(), nums);
+        auto hare = double_step(nums.begin(), nums);
+        while (hare != tort) {
+            tort = step(tort, nums);
+            hare = double_step(hare, nums);
+        }
         
+        tort = nums.begin();
+        while (hare != tort) {
+            tort = step(tort, nums);
+            hare = step(hare, nums);
+        }
+        return distance(nums.begin(), tort);
+    }
+    
+private:
+    vector<int>::const_iterator step(const vector<int>::const_iterator it, const vector<int>& nums) {
+        auto st = *it;
+        auto res = nums.begin() + st;
+        return res;
+    }
+    vector<int>::const_iterator double_step(const vector<int>::const_iterator it, const vector<int>& nums) {
+        auto st = *it;
+        auto res = nums.begin() + st;
+        st = *res;
+        res = nums.begin() + st;
+        return res;
     }
 };
