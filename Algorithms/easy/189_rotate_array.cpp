@@ -43,6 +43,7 @@ Algo3 - copy part:
     move back tarr -> to the begin 
     
 Algo4: move each element to his place: O(N) + O(1)
+- save init_idx (for cycles solving problem)
 - new_i = (i+k) % n
 - previous save to tmp and move further
 - stop after n moves

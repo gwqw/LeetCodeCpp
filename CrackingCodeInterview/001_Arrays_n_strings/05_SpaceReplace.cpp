@@ -29,7 +29,7 @@ string replace_spaces(const string& s) {
         if (c == ' ') spaces_cnt++;
     }
     string res;
-    res.reserve(s.size() + spaces_cnt);
+    res.reserve(s.size() + 2*spaces_cnt);
     for (auto c : s) {
         if (c != ' ') {
             res += c;
