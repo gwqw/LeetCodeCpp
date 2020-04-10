@@ -13,11 +13,16 @@ Note:
 You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
 Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
 
-Algo: O(N + klogN) amortized, O(N)
+Algo1: O(N + klogN) amortized, O(N)
 - use dict value -> freq    O(N)
 - make array of all unique elements with their frequencies O(N)
 - use partial_sort with cmp function
 - form result array
+
+Algo2: the same but use nth-element, will be unordered: O(N) + O(N)
+
+Algo3: freq. dict (as in Algo) and use reversed dict: dict<freq, value>
+different frequencies ~sqrt(n)
 
 */
 

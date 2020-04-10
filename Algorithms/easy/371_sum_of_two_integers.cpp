@@ -16,7 +16,8 @@ sum = log(exp(a)*exp(b))
 Algo2: digit
 - take digits
 - calc sum as xor
-- calc shift as d1 and d2 or d1 and shift or d2 or shift
+- calc shift as (d1 & d2 << 1)
+- if shift == 0: break
 - go further
 
 */
@@ -24,6 +25,14 @@ Algo2: digit
 class Solution {
 public:
     int getSum(int a, int b) {
-        
+        constexpr auto MASK = 0x1'00'00'00'00ul;
+        int res = (a ^ b) % MASK;
+        int shift = ((a & b) << 1) % MASK;
+        while (shift) {
+            int new_res = (res ^ shift) % MASK;
+            shift = ((shift & res) << 1) % MASK;
+            res = new_res;
+        }
+        return res;
     }
 };
