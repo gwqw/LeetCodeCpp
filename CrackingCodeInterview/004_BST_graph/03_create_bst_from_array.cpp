@@ -50,12 +50,14 @@ private:
 Node* create_bin_tree(const vector<int>& v, int from, int to) {
     // exit from recursion
     if (to == from) return nullptr;
-    Node* n = new Node{v[from]};
+    
     if (to - front == 1) {
+        Node* n = new Node{v[from]};
         return n;
     }
     // add middle element to tree
     int m = from  + (to - front) / 2;
+    Node* n = new Node{v[m]};
     // recursive add left array and right arrays to tree
     n->left = create_bin_tree(v, from, m-1);
     n->right = create_bin_tree(v, m+1, to);

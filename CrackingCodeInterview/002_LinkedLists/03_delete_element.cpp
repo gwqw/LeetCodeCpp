@@ -24,8 +24,9 @@ std::ostream& operator<<(std::ostream& out, Node* n) {
 }
 
 void delete_element(Node* p) {
-    if (p->next) {
+    if (p && p->next) {
         *p = *(p->next);
+        p->next = p->next->next;
     }
 }
 

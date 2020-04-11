@@ -3,6 +3,7 @@
     What if you can not use additional data structures?
     Variant1: use cache: unordered_set: O(N) + O(N)
     Variant2: O(N^2) + O(1)
+    Variant3: sort O(NlogN) + O(logN, 1)
     
     Examples: 1) "", 2) "a", 3) "ab", 4) "aa", 5) "aba"
 */
