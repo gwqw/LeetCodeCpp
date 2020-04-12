@@ -37,44 +37,33 @@ Explanation: By calling next repeatedly until hasNext returns false,
 
 class NestedIterator {
     using Iterator = vector<NestedInteger>::const_iterator;
-    using IteratorRange = pair<Iterator, Iterator>;
     
     struct IteratorRange {
         Iterator first;
         Iterator second;
         bool empty() const {return first == second;}
+        void next() {++first;}
     };
     
 public:
     NestedIterator(vector<NestedInteger> &nestedList) 
-        : cit(nestedList.begin(), nestedList.end())
-    {}
+        : cit{nestedList.begin(), nestedList.end()}
+    {
+        getNextInt();
+    }
     
     int next() {
-        while (cit.empty() && !st.empty()) {
-            cit = st.top();
-            st.pop();
-        }
-        if (cit.first == cit.second) {
-            throw logic_error("There is no next value");
-        }
-        while (!cit.first->isInteger()) {
-            const auto& lst = cit.first->getList();
-            ++cit.first;
-            if (cit.first != cit.second) {
-                st.push(cit);
-            }
-            //TODO: check if begin() == end()
-            cit = {lst.begin(), lst.end()};
+        if (!has_next) {
+            throw logic_error("Call next on empty iterator range");
         }
         int ans = cit.first->getInteger();
-        ++cit.first;        
-        //cout << ans << " " << cit.first->getInteger() << endl;
+        cit.next();
+        getNextInt();
         return ans;
     }
     
     bool hasNext() const {
-        return cit.first != cit.second || !st.empty();
+        return has_next;
     }
 private:
     stack<IteratorRange> st;
@@ -82,25 +71,27 @@ private:
     bool has_next = false;
     
     void getNextInt() {
+        while (true) {
+            has_next = goToNonEmptyItem();
+            if (!has_next) return;
+            if (cit.first->isInteger()) return;
+            const auto& lst = cit.first->getList();
+            cit.next();
+            if (!cit.empty()) {
+                st.push(cit);
+            }           
+            cit = {lst.begin(), lst.end()};
+        }
+    }
+    
+    bool goToNonEmptyItem() {
         while (cit.empty() && !st.empty()) {
             cit = st.top();
             st.pop();
         }
-        if (cit.first == cit.second) {
-            has_next = false;
-            return;
-        }
-        while (!cit.first->isInteger()) {
-            const auto& lst = cit.first->getList();
-            ++cit.first;
-            if (cit.first != cit.second) {
-                st.push(cit);
-                cit = {lst.begin(), lst.end()};
-            }
-            //TODO: check if begin() == end()
-            
-        }
+        return !cit.empty();
     }
+    
 };
 
 /**
