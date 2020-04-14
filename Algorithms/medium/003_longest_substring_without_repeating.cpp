@@ -18,11 +18,11 @@ Output: 3
 Explanation: The answer is "wke", with the length of 3. 
              Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
-Algo: O(N + k), O(k)
-- go through the string and save substring (add collected in queue) and hash_map
-- if we have collision, 
+Algo: sliding window O(N + k), O(k)
+- go through the string and save substring stat to hash_map
+- if we have collision:
     - update max_length if needed
-    - then pop out of queue and map until cur symbol
+    - then move first and pop out of map until cur symbol
 - repeat the first step
 
 
