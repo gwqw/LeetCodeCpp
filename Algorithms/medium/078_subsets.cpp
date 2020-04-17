@@ -26,6 +26,12 @@ Algo: recursive: rec(nums, b, &ans)
     - new = n + nums[b]
     - ans <- new
 - ans <- {nums[b]}
+
+Algo2: backtracking:
+- we have ans for n-1:
+- for every value in ans:
+    - add to ans value + num
+n = 0: [[]]
 */
 
 class Solution {
@@ -51,6 +57,23 @@ private:
             ans.push_back(move(v));
         }
         ans.push_back({nums[b]});
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> subsets(const vector<int>& nums) {
+        vector<vector<int>> ans = {{}};
+        ans.reserve(1 << nums.size());
+        for (auto num : nums) {
+            size_t n = ans.size();
+            for (size_t i = 0; i < n; ++i) {
+                auto val = ans[i];
+                val.push_back(num);
+                ans.push_back(move(val));
+            }
+        }
+        return ans;
     }
 };
 
