@@ -25,38 +25,80 @@ Algo: use dfs for path search
 */
 
 class Solution {
-    using Graph = unordered_map<string_view, vector<string_view>>;
-    using UnusedTickets = map<pair<string_view, string_view>, int>;
+    using Graph = unordered_map<int, vector<int>>;
+    using Edge = pair<int, int>;
+    using UnusedTickets = map<Edge, int>;
+    using IndexDict = vector<string>;
+    using StringDict = unordered_map<string, int>;
 public:
     vector<string> findItinerary(const vector<vector<string>>& tickets) {
-        auto [graph, unused] = createGraph(tickets);
-        string_view cur = "JFK";
-        vector<string> path{"JFK"};
-        dfs(cur, graph, unused, path);
+        auto [i2str, str2int] = makeDicts(tickets);        
+        auto [graph, unused] = createGraph(tickets, i2str, str2int);
+        vector<string> path;
+        dfs(str2int["JFK"], graph, unused, path, i2str);
+        reverse(path.begin(), path.end());
         return path;        
     }
 
 private:
+    pair<IndexDict, StringDict>
+        makeDicts(const vector<vector<string>>& tickets) 
+        {
+            IndexDict i2str;
+            StringDict str2int;
+            for (const auto& t : tickets) {
+                if (!str2int.count(t[0])) {
+                    i2str.push_back(t[0]);
+                    str2int[i2str.back()] = (int)i2str.size()-1;
+                }
+                if (!str2int.count(t[1])) {
+                    i2str.push_back(t[1]);
+                    str2int[i2str.back()] = (int)i2str.size()-1;
+                }                
+            }
+            sort(i2str.begin(), i2str.end());
+            for (int i = 0; i < (int)i2str.size(); ++i) {
+                str2int[i2str[i]] = i;
+            }
+            return {i2str, str2int};
+        }
+
     pair<Graph, UnusedTickets>
-        createGraph(const vector<vector<string>>& tickets) 
+        createGraph(const vector<vector<string>>& tickets, const IndexDict& i2str, const StringDict& str2int) 
     {
         Graph graph;
         UnusedTickets unused;
         for (const auto& t : tickets) {
-            graph[t[0]].push_back(t[1]);
-            ++unused[{t[0], t[1]}];
+            int from = str2int.at(t[0]);
+            int to = str2int.at(t[1]);
+            graph[from].push_back(to);
+            ++unused[{from, to}];
+        }
+        for (auto& [_,v] : graph) {
+            sort(v.begin(), v.end());
         }
         return {graph, unused};
     }
     
-    void dfs(string_view cur, const Graph& graph, UnusedTickets& unused, vector<string>& path) {
-        const auto& children = graph.at(cur);
-        for (const auto& child : children) {
-            if (unused[{cur, child}] > 0) {
-                --unused[{cur, child}];
-                path.push_back(string(child));
-                dfs(child, graph, unused, path);
+    void dfs(int cur, const Graph& graph, UnusedTickets& unused, vector<string>& path, const IndexDict& i2str) {
+        if (graph.count(cur)) {
+            const auto& children = graph.at(cur);
+            for (const auto& child : children) {
+                if (unused[{cur, child}] > 0) {
+                    --unused[{cur, child}];
+                    dfs(child, graph, unused, path, i2str);
+                }
             }
         }
+        path.push_back(i2str.at(cur));
+    }
+    
+    static bool is_last(int vertex, const Graph& graph, UnusedTickets& unused) {
+        bool is_last = !graph.count(vertex);
+        if (is_last) return true;
+        for (auto child : graph.at(vertex)) {
+            if (unused[{vertex, child}] > 0) return false;
+        }
+        return true;
     }
 };
