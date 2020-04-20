@@ -32,7 +32,7 @@ randomSet.insert(2);
 randomSet.getRandom();
 
 
-Algo: use vector
+Algo: use vector and dict[value]->idx
 */
 
 class RandomizedSet {
