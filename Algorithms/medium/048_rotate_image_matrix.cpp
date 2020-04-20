@@ -58,6 +58,9 @@ i from [0,n/2)
 j from [i, n-i)
 
 
+Algo2: reflexion rel. horizontal + transpose
+
+
 */
 
 class Solution {
@@ -71,6 +74,24 @@ public:
                 a[n-1-j][i] = a[n-1-i][n-1-j];
                 a[n-1-i][n-1-j] = a[j][n-1-i];
                 a[j][n-1-i] = t;
+            }
+        }
+    }
+};
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& a) {
+        if (a.empty()) return;
+        size_t n = a.size();
+        // horizontal reflexion
+        for (size_t i = 0; i < n/2; ++i) {
+            swap(a[i], a[n-1-i]);
+        }
+        // transpose
+        for (size_t i = 0; i+1 < n; ++i) {
+            for (size_t j = i+1; j < n; ++j) {
+                swap(a[i][j], a[j][i]);
             }
         }
     }
