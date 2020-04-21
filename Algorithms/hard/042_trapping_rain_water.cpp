@@ -11,7 +11,7 @@ Example:
 Input: [0,1,0,2,1,0,1,3,2,1,2,1]
 Output: 6
 
-Algo1: using maps
+Algo1: using maps NlogN
 - make map: height -> set(pos)
 - find 2 max: go through map
 - calc water area between them
@@ -21,6 +21,17 @@ Algo1: using maps
     - find closest max2
     - calc water area between them
     - remove all bars between them
+    
+Algo2: using dp + go forward and go backward
+- go forward: for all heights
+    - update max_height
+    - save hf[i] = max_height - h[i]
+- go backward: for all heights:
+    - update max_height
+    - save hb[i] = max_height - h[i]
+    or h_res[i] = min(hf[i],hb[i])
+    area += h_res[i]
+
 */
 
 class Solution {
@@ -89,4 +100,36 @@ private:
     }
 };
 
-// cout << jt->first << " " << it->first << ", pos= " << jt->second << " " << it->second << ", area= " << new_area << endl;
+/*
+Algo2: using dp + go forward and go backward
+- go forward: for all heights
+    - update max_height
+    - save hf[i] = max_height - h[i]
+- go backward: for all heights:
+    - update max_height
+    - save hb[i] = max_height - h[i]
+    or h_res[i] = min(hf[i],hb[i])
+    area += h_res[i]
+*/
+
+class Solution {
+public:
+    int trap(const vector<int>& h) {        
+        vector<int> hf(h.size());
+        int maxh = 0;
+        for (size_t i = 0; i < h.size(); ++i) {
+            maxh = max(maxh, h[i]);
+            hf[i] = maxh - h[i];
+        }
+        int area = 0;
+        maxh = 0;
+        for (size_t i = h.size(); i-->0; ) {
+            maxh = max(maxh, h[i]);
+            hf[i] = min(hf[i], maxh - h[i]);
+            area += hf[i];
+        }
+        return area;
+    }
+};
+
+
