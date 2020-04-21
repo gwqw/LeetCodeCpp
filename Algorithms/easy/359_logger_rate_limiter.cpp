@@ -31,6 +31,12 @@ logger.shouldPrintMessage(11,"foo"); returns true;
 
 Algo1: naive: use dict
 dict[msg]->time
+
+Algo2: dict with iterators on deque with all data
+struct event:
+    time
+    msg
+deque<event>
 */
 
 class Logger {
@@ -43,7 +49,7 @@ public:
     bool shouldPrintMessage(int timestamp, const string& message) {
         if (msg_time.count(message)) {
             int last_time = msg_time[message];
-            if (timestamp - last_time > TIME_THRES) {
+            if (timestamp - last_time >= TIME_THRES) {
                 msg_time[message] = timestamp;
                 return true;
             } else {
@@ -65,3 +71,120 @@ private:
  * bool param_1 = obj->shouldPrintMessage(timestamp,message);
  */
 
+class Logger {
+    static constexpr int TIME_THRES = 10;
+    
+    struct Event {
+        int time = 0;
+        string msg;
+    };
+    
+    using Iterator = deque<Event>::iterator;
+public:
+    
+    /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity. */
+    bool shouldPrintMessage(int now, const string& message) {
+        shrink(now);
+        if (msg_time.count(message)) {
+            int last_time = getTime(message);
+            if (now - last_time >= TIME_THRES) {
+                deleteEvent(message);
+                addEvent(message, now);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            addEvent(message, now);
+            return true;
+        }
+    }
+    
+private:
+    deque<Event> data;
+    unordered_map<string, Iterator> msg_time;
+    
+    int getTime(const string& msg) const {
+        auto it = msg_time.at(msg);
+        return it->time;
+    }
+    
+    void deleteEvent(const string& msg)  {
+        //auto it = msg_time[msg];
+        //it->msgs.erase(msg);
+        msg_time.erase(msg);
+        // msgs.empty()?
+    }
+    
+    void addEvent(const string& message, int time) {
+        data.push_back(Event{time, message});
+        msg_time[message] = prev(data.end());
+    }
+    
+    void shrink(int time) {
+        while (!data.empty() && data.front().time + TIME_THRES < time) {
+            msg_time.erase(data.front().msg);
+            data.pop_front();
+        }
+    }
+};
+
+class Logger {
+    static constexpr int TIME_THRES = 10;
+    
+    struct Event {
+        int time = 0;
+        string msg;
+    };
+    
+    using Iterator = list<Event>::iterator;
+public:
+    
+    /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity. */
+    bool shouldPrintMessage(int now, const string& message) {
+        shrink(now);
+        if (msg_time.count(message)) {
+            int last_time = getTime(message);
+            if (last_time + TIME_THRES <= now) {
+                deleteEvent(message);
+                addEvent(message, now);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            addEvent(message, now);
+            return true;
+        }
+    }
+    
+private:
+    list<Event> data;
+    unordered_map<string, Iterator> msg_time;
+    
+    int getTime(const string& msg) const {
+        auto it = msg_time.at(msg);
+        return it->time;
+    }
+    
+    void deleteEvent(const string& msg)  {
+        auto it = msg_time[msg];
+        data.erase(it);
+        msg_time.erase(msg);
+    }
+    
+    void addEvent(const string& message, int time) {
+        msg_time[message] = data.insert(data.end(), Event{time, message});
+    }
+    
+    void shrink(int time) {
+        while (!data.empty() && data.front().time + TIME_THRES <= time) {
+            msg_time.erase(data.front().msg);
+            data.pop_front();            
+        }
+    }
+};

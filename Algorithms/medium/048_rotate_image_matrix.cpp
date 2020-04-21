@@ -85,9 +85,7 @@ public:
         if (a.empty()) return;
         size_t n = a.size();
         // horizontal reflexion
-        for (size_t i = 0; i < n/2; ++i) {
-            swap(a[i], a[n-1-i]);
-        }
+        reverse(a.begin(), a.end());
         // transpose
         for (size_t i = 0; i+1 < n; ++i) {
             for (size_t j = i+1; j < n; ++j) {
