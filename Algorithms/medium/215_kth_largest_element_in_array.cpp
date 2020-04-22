@@ -10,6 +10,7 @@ Output: 5
 Example 2:
 Input: [3,2,3,1,2,4,5,5,6] and k = 4
 Output: 4
+[1,2,2,3,3,4,5,5,6]
 
 Note:
 You may assume k is always valid, 1 ≤ k ≤ array's length.
@@ -96,11 +97,34 @@ private:
     int randomSelect(vector<int>& a, size_t l, size_t r, int k) {
         if (l+1 == r) {
             return a[l];
+        }        
+        swap(a[l], a[l + rand() % (r-l)]);
+        auto x = a[l];
+        size_t ridx = r;
+        for (size_t i = l+1; i < ridx; ) {
+            if (a[i] <= x) {
+                ++i;
+            } else {
+                swap(a[i], a[--ridx]);
+            }
         }
-        int x = a[l + rand() % r];
-        
+        if (l+1 < ridx) {
+            swap(a[l], a[--ridx]);
+        }
+        if (ridx == a.size() - k) {
+            return a[ridx];
+        } else if (ridx < a.size() - k) {
+            return randomSelect(a, ridx+1, r, k);
+        } else {
+            return randomSelect(a, l, ridx, k);
+        }
     }
-    
 };
+
+
+
+
+
+
 
 
