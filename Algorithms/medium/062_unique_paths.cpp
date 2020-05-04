@@ -44,6 +44,13 @@ Algo3: reverse dp: go from back O(n*m) + O(m)
 - cur_row[i][j] = prev_row[j] + cur_row[j+1]
 - return cur_row[0]
 
+Algo4: combinatoric
+- to right m-1
+- to left n-1
+- so we have n+m-2 moves and can fix vertical moves for example
+- C(n+m-2, n-1) = (n+m-2)! / (n-1)! / (m-1)!
+- C(n, k) = n! / (n-k)! / k! = (n-k+1 .. n) / k!
+
 */
 
 class Solution {
@@ -95,6 +102,26 @@ public:
             swap(cur_row, prev_row);
         }
         return prev_row[0];
+    }
+};
+
+class Solution {
+    long long fact(int from, int to) {
+        long long res = 1;
+        for (int i = from; i <= to; ++i) {
+            res = res * i;
+        }
+        return res;
+    }
+
+    int c(int n, int k) {
+        k = min(k, n-k);
+        return fact(n-k+1, n) / fact(k);       
+    }
+
+public:
+    int uniquePaths(int m, int n) {
+        return c(m+n-2, n-1);
     }
 };
 

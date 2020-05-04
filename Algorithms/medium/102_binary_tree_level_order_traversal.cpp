@@ -17,7 +17,7 @@ return its level order traversal as:
   [15,7]
 ]
 
-Algo: use bfs and save lvl: O(N) + O(N)
+Algo1: use bfs and save lvl: O(N) + O(N)
 - add to queue node and level
 - pop from queue node and level
 - if level != cur_level:
@@ -25,6 +25,9 @@ Algo: use bfs and save lvl: O(N) + O(N)
     - res.push_back()
 - add to res.back()
 - add all not null childs to queue
+
+Algo2: dfs
+
 
 */
 
@@ -61,6 +64,26 @@ public:
             }
         }
         return res;
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        lvlOrder(root, 0, ans);
+        return ans;
+    }
+    
+private:
+    void lvlOrder(TreeNode* node, size_t lvl, vector<vector<int>>& ans) {
+        if (!node) return;
+        if (ans.size() == lvl) {
+            ans.push_back({});
+        }
+        ans[lvl].push_back(node->val);
+        lvlOrder(node->left, lvl+1, ans);
+        lvlOrder(node->right, lvl+1, ans);
     }
 };
 
