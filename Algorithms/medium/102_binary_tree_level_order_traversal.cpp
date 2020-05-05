@@ -27,8 +27,6 @@ Algo1: use bfs and save lvl: O(N) + O(N)
 - add all not null childs to queue
 
 Algo2: dfs
-
-
 */
 
 /**

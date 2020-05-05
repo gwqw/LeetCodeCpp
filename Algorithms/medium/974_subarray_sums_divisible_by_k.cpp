@@ -13,9 +13,9 @@ Note:
 -10000 <= A[i] <= 10000
 2 <= K <= 10000
 
-Algo1: predicate sums + bruteforce O(N^2) + O(N) TLE
+Algo1: prefix sums + bruteforce O(N^2) + O(N) TLE
 
-Algo2: predicate sum + dict O(N) + O(N)
+Algo2: prefix sum + dict O(N) + O(N)
 - dict[resid] -> count
 
 */

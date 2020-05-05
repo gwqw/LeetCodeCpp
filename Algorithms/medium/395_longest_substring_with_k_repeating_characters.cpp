@@ -20,7 +20,7 @@ Algo: naive brute-force: O(N^2) + O(dict)
 - max_length = 0
 - for every first:
     - go and calc dict[char]++
-        - if  all dict[char] >= k (or ==0)
+        - if all dict[char] >= k (or ==0)
         - max_length = lst - first+1
 
 Algo: divide and couquer

@@ -14,7 +14,7 @@ Given n = 3, there are a total of 5 unique BST's:
     /     /       \                 \
    2     1         2                 3
 
-Algo1: dp
+Algo1: dp O(N^2) + O(N)
 a[0] = 1, a[1] = 1
 a[i] = a[i-1] + a[i-2]a[1] + ... + a[i-j-1]*a[j] + ... + a[0]*a[i-1]
 

@@ -17,7 +17,7 @@ Output: false
 
 Algo: like search 3 min elements
 - i_value = INT_MAX
-- j_valu = INT_MAX
+- j_value = INT_MAX
 - for n in nums:
     if n < i_value: 
 */

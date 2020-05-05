@@ -26,7 +26,7 @@ Algo: recursive O(height*N)
 - root->right = rec(pre, pfrom+1+left_length, pto, inorder, iroot+1, ito)
 
 Algo (enhanced): use dict for fast index search
-- for inrder make dict val -> pos
+- for inorder make dict val -> pos
 
 */
 

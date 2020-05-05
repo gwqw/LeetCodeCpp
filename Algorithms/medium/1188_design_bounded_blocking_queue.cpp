@@ -59,36 +59,7 @@ queue.size();       // 1 element remaining in the queue.
 Since the number of threads for producer/consumer is greater than 1, we do not know how the threads will be scheduled in the operating system, even though the input seems to imply the ordering. Therefore, any of the output [1,0,2] or [1,2,0] or [0,1,2] or [0,2,1] or [2,0,1] or [2,1,0] will be accepted.
 
 Algo:
-push:
-    - lock m
-    - check size
-    - if size != cap
-        - push
-        - if size == cap:
-            - lock m_push
-            - exit
-        - if size == 1:
-            - unlock m_pop
-            - exit
-    - else:
-        - unlock m
-        - lock m_push
-        - wait
-pop:
-    - lock m
-    - check size
-    - if size > 0:
-        - pop
-        - if size == 0:
-            - lock m_pop
-            - exit
-        - if size+1 == cap:
-            - unlock m_push
-            - exit
-    - else:
-        - unlock m
-        - lock m_pop
-        - wait
+- 2 cond_variable and 1 mutex
 */
 
 class BoundedBlockingQueue {

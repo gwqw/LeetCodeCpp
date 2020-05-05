@@ -19,7 +19,7 @@ search("b..") -> true
 Note:
 You may assume that all words are consist of lowercase letters a-z.
 
-
+Algo: trie
 */
 
 class WordDictionary {
