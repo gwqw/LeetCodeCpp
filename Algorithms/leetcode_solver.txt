@@ -101,3 +101,4 @@ Design
 - HitCounter: sliding window: deque<event> data, Event {time, cnt}
 - Insert, Delete, GetRandom: vector<int>, dict<int>->idx
 - All O(1): inc(key), dec(key), getMaxKey, getMinKey(): list<Node>, dict[key]->list::iterator. Node{value, set<keys>}
+- MaxStack with popMax: list<int>, map<int, vector<Iterator>>
