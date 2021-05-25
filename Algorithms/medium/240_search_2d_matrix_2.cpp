@@ -21,11 +21,11 @@ Algo1: O(NlogN) + O(1)
 - for r in 0, max_row
     - use binary_search to find value: lower_bound
 
-Algo2: 
+Algo2: O(rows + cols) ~O(N): search split line in every row
 - find first lower_bound in first row
 - if el == target: return true
-- if el < target: go down
-- if el > target: go left
+- if el < target: go down # we found split line, new point at next row will be lefter
+- if el > target: go left # search split line
     
 */
 
