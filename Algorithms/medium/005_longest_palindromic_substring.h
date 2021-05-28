@@ -17,7 +17,11 @@ Algo: naive: brute-force: O(N^3)
 
 Algo2: dp: O(N^2) + O(N^2)
 - make matrix is_palindrom[start][end]
-- find longest
+- for l in length:
+	for i in 0, n-l:
+		j = i+l
+		mtx[i, j] = mtx[i+1, j-1] and a[i] == a[j]
+	update(max_length)
 
 Algo3: go from center: O(N^2)
 */
