@@ -45,8 +45,8 @@ public:
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     bool insert(int val) {
         if (data_idx.count(val) != 0) return false;
-        data.push_back(val);
-        data_idx[val] = data.size()-1;
+        data_idx[val] = data.size();
+        data.push_back(val);        
         return true;
     }
     
@@ -56,7 +56,7 @@ public:
         size_t idx = data_idx[val];
         if (idx+1 != data.size()) {
             int swap_val = data.back();
-            swap(data[idx], data.back());
+            data[idx] = data.back();
             data_idx[swap_val] = idx;
         } 
         data.pop_back();
@@ -66,13 +66,11 @@ public:
     
     /** Get a random element from the set. */
     int getRandom() {
-        //size_t idx = rand() /((1u + RAND_MAX) / data.size());
         if (data_idx.empty()) {
             throw invalid_argument("Set is empty");
         }
         size_t idx = rand() % data.size();
-        auto it = data.begin() + idx;
-        return *it;
+        return data[idx];
     }
 private:
     vector<int> data;

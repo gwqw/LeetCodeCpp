@@ -23,17 +23,17 @@ Read more about how a graph is represented.
 You may assume that there are no duplicate edges in the input prerequisites.
 1 <= numCourses <= 10^5
 
-Algo: dfs (search cycle)
+Algo: dfs (search cycle) O(V+E)
 has_cycle(v): // has_cycle
     mark[v] = 1
     for u in edges[v]:
-        if mark[u] == 0:
+        if mark[u] == 0: # dfs
             res = has_cycle(u)
             if res: return true
-        if mark[u] == 1:
-            return false
-    mark[v] = 2
-    return false
+        if mark[u] == 1: # cycle detected
+            return true
+    mark[v] = 2  # all children are checked
+    return false # go through all children of this vertex -- no cycle
 
 */
 
@@ -43,7 +43,8 @@ public:
     bool canFinish(int numCourses, const vector<vector<int>>& edges) {
         vector<int> marks(numCourses, 0);
         auto graph = createGraph(numCourses, edges); // O(m)
-        for (int vertex = nextToVisit(marks); vertex != -1; vertex = nextToVisit(marks)) { // O(n)
+        int vertex = 0;
+        for (vertex = nextToVisit(marks, vertex); vertex != -1; vertex = nextToVisit(marks, vertex)) { // O(n)
             if (has_cycle(vertex, graph, marks)) return false;
         }
         return true;
@@ -58,8 +59,8 @@ private:
         return g;
     }
     
-    int nextToVisit(const vector<int>& marks) {
-        for (size_t i = 0; i < marks.size(); ++i) {
+    int nextToVisit(const vector<int>& marks, size_t curr) {
+        for (size_t i = curr; i < marks.size(); ++i) {
             if (marks[i] == 0) {
                 return i;
             }
