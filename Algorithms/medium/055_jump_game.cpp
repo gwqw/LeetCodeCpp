@@ -18,7 +18,7 @@ Constraints:
 1 <= nums.length <= 10^4
 0 <= nums[i] <= 10^5
 
-Algo: dp (solved for prefixes) O(N^2), O(N)
+Algo1: dp (solved for prefixes) O(N^2), O(N) (tle)
 	dp = [steps+1, false]
 	for step in nums:
 		for j < i:
@@ -26,25 +26,76 @@ Algo: dp (solved for prefixes) O(N^2), O(N)
 				dp[i] = true
 				break
 	return dp[nums.size()]
+	
+Algo2: greedy max jump O(N^2) 800ms
+we can jump maximum, because all less positions are reachable
+for next position we search if we can jump here for numbers before
+    if found: jump max
+    else: return false
+
+Algo3: greedy2: O(N)
+take max availiable step in range:
+    max_pos = max from nums[i] + i
+    make step to max pos:
+    search next step in (prev_pos, cur_pos]
+    if next_pos <= cur_pos: return false
 */
- /*
- [3,2,1,0,4]
-  1 1 1 1 0
- */
+
 class Solution {
 public:
     bool canJump(const vector<int>& nums) {
-		if (nums.empty()) return true;
-		vector<char> dp(nums.size(), 0);
-		dp[0] = 1;
-		for (size_t i = 1; i < nums.size(); ++i) {
+		if (nums.size() <= 1) return true;
+		for (size_t i = nums[0]; i < nums.size(); ) {
+            bool is_found = false;
 			for (size_t j = 0; j < i; ++j) {
-				if (dp[j] && nums[j] >= i-j) {
-					dp[i] = 1;
+				if (nums[j] >= i-j) {
+				    i = jump_forward(i+1, nums[i], nums.size());
+                    is_found = true;
 					break;
 				}
 			}
+            if (!is_found) return false;
 		}
-		return dp[nums.size()-1] == 1;
+		return true;
+    }
+    
+private:
+    size_t jump_forward(size_t start, size_t count, size_t max_size) {
+        return min(start+count, max_size);
     }
 };
+
+/*
+take max availiable step in range:
+    max_pos = max from nums[i] + i
+    make step to max pos:
+    search next step in (prev_pos, cur_pos]
+    if next_pos <= cur_pos: return false
+*/
+class Solution {
+public:
+    bool canJump(const vector<int>& nums) {
+		if (nums.size() <= 1) return true;
+		size_t prev_pos = 0;
+		size_t cur_pos = 0;
+		while (true) {
+		    size_t new_pos = search_max_pos(nums, prev_pos, cur_pos);
+		    if (new_pos <= cur_pos) return false;
+		    if (new_pos+1 >= nums.size()) return true;
+		    prev_pos = cur_pos+1;
+		    cur_pos = new_pos;
+		}
+		return true;
+    }
+    
+private:
+    size_t search_max_pos(const vector<int>& nums, size_t prev_pos, size_t cur_pos) {
+        size_t max_pos = 0;
+        for (size_t i = prev_pos; i <= cur_pos; ++i) {
+            max_pos = max(max_pos, i + nums[i]);
+        }
+        return min(max_pos, nums.size());
+    }
+};
+
+
