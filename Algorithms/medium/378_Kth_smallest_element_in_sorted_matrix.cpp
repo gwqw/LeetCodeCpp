@@ -33,11 +33,23 @@ Algo: O(k*N) + O(N)
     - update unvisited: ++unvisited[mr]
     - update: ++ki
 
+Algo: binary search on range. O(N*logN*log(range)), range = a[0][0] -- a[n-1][n-1]
+l = a[0][0]
+r = a[n-1][n-1]
+while l+1<r:
+    m = l + (r-l) / 2
+    count = [upper_bound() for every row].sum()
+    if count > k:
+        r = mid
+    else:
+        l = mid
+
+
 */
 
 class Solution {
 public:
-    int kthSmallest(vector<vector<int>>& m, int k) {
+    int kthSmallest(const vector<vector<int>>& m, int k) {
         assert(!m.empty());
         size_t n = m.size();
         vector<size_t> unvisited(n, 0);
@@ -74,4 +86,54 @@ public:
     }
 };
 
+class Solution {
+public:
+    int kthSmallest(const vector<vector<int>>& m, int k) {
+        assert(!m.empty());
+        size_t n = m.size();
+        int l = m[0][0];
+        int r = m.back().back();
+        while (l < r) {
+            int mid = l + (r-l)/2;
+            size_t count = 0;
+            for (size_t row = 0; row < n; ++row) {
+                size_t c = upper_bound(m[row].begin(), m[row].end(), mid) - m[row].begin();
+                if (c == 0) break;
+                count += c;
+            }
+            if (count < k) {
+                l = mid+1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
+    }
+};
+
+class Solution {
+public:
+    int kthSmallest(const vector<vector<int>>& m, int k) {
+        assert(!m.empty());
+        size_t n = m.size();
+        int l = m[0][0];
+        int r = m.back().back();
+        while (l < r) {
+            int mid = l + (r-l)/2;
+            size_t count = 0;
+            auto eit = upper_bound(m.begin(), m.end(), mid, [](int lhs, const auto& rhs){return lhs < rhs[0];});
+            for (auto it = m.begin(); it != eit; ++it) {
+                size_t c = upper_bound(it->begin(), it->end(), mid) - it->begin();
+                if (c == 0) break;
+                count += c;
+            }
+            if (count < k) {
+                l = mid+1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
+    }
+};
 

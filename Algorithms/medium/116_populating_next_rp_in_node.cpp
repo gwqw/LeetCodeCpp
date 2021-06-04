@@ -42,7 +42,7 @@ public:
         : val(_val), left(_left), right(_right), next(_next) {}
 };
 
-Algo: bfs
+Algo: bfs O(N), O(N)
 queue q({Node, level})
 level = 0
 Node* prev = null
@@ -56,6 +56,23 @@ while q:
         q.push(node->left, lvl+1)
     if node->right:
         q.push(node->right, lvl+1)
+        
+Algo2: dfs wo mem: O(N), O(h)
+left: n->left->next = n->right
+right: n->right->next = n->next->left (if n->next)
+
+Algo3: bfs wo recursion with next
+p = root
+while p->left:
+    q = p
+    while q:
+        q->left->next = q->right
+        if q->next:
+            q->right->next = q->next->left
+        q = q->next
+    p = p->left
+        
+
 */
 
 class Solution {
@@ -76,6 +93,39 @@ public:
             prev_lvl = lvl;
             if (node->left) q.push({node->left, lvl+1});
             if (node->right) q.push({node->right, lvl+1});
+        }
+        return root;
+    }
+};
+
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if (!root || !root->left) return root;
+        root->left->next = root->right;
+        if (root->next) {
+            root->right->next = root->next->left;
+        }
+        connect(root->left);
+        connect(root->right);
+        return root;
+    }
+};
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if (!root || !root->left) return root;
+        auto p = root;
+        while (p->left) {
+            for (auto q = p; q; q = q->next) {
+                q->left->next = q->right;
+                if (q->next) {
+                    q->right->next = q->next->left;
+                }
+            }
+            p = p->left;
         }
         return root;
     }
