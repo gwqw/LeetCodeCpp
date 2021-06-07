@@ -14,7 +14,11 @@ Input: [1,[4,[6]]]
 Output: [1,4,6]
 Explanation: By calling next repeatedly until hasNext returns false, 
              the order of elements returned by next should be: [1,4,6].
-
+             
+Algo: use stack for iterator range for lists: O(N), O(height)mem
+- look at top-element in stack
+- if not int:
+    add list to stack and continue look for
 */
 
 /**

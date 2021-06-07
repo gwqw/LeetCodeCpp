@@ -18,7 +18,7 @@ solution.shuffle();
 
 Algo1: use next_permutation
 
-Algo2: use n swaps
+Algo2: use n swaps (shuffle analog from std)
 
 
 */
