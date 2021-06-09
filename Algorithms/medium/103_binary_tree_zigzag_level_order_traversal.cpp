@@ -17,7 +17,17 @@ return its zigzag level order traversal as:
   [15,7]
 ]
 
-Algo: bfs: O(N) + O(N)
+Algo1: bfs: O(N) + O(N)
+
+Algo2: dfs: O(N) + O(N)
+visit(node, level, &res)
+    if not node: return
+    res[level].append(node->val) # resize res by push_back 
+    visit(node->left, level+1, res)
+    visit(node->rigth, level+1, res)
+visit(root, res, 0)
+for i in range(0, res.size(), 2):
+    reverse(res[i])
 */
 
 /**
