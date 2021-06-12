@@ -11,7 +11,7 @@ Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 Note:
 Although the above answer is in lexicographical order, your answer could be in any order you want.
 
-Algo: backtracking
+Algo: backtracking: o
 - treat position:
     ans for each add <- dict[num] 1, 2, 3
 - recursive
@@ -51,5 +51,24 @@ private:
             swap(ans, res);
         }
         treatLetter(digits, from+1, ans);
+    }
+};
+
+class Solution {
+public:
+    vector<string> letterCombinations(const string& digits) {
+        if (digits.empty()) return {};
+        vector<string> ans{""};
+        for (char digit : digits) {
+            vector<string> new_ans;
+            const auto& letters = dict.at(digit);
+            for (const auto& prefix : ans) {
+                for (auto letter : letters) {
+                    new_ans.push_back(prefix + letter);
+                }
+            }
+            new_ans.swap(ans);
+        }
+        return ans;
     }
 };
