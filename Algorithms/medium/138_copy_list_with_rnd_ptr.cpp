@@ -57,6 +57,15 @@ for node in list:
 for node in list2:
 	if node->rand and node->rand in dict:
 		node->rand = dict[node->rand]
+		
+Algo2: O(N), O(1)
+create zig-zag list (modify input list):
+    orig_node->next = new_node
+    new_node->next = old orig_node->next
+new_node->random = orig_node->random->next
+
+split this list on 2: orig and new
+
 */
 
 /*

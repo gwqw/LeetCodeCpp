@@ -45,10 +45,14 @@ Only the filled cells need to be validated according to the mentioned rules.
 The given board contain only digits 1-9 and the character '.'.
 The given board size is always 9x9.
 
-Algo:
+Algo1:
 - go through row and check duplicates
 - go through col and check duplicates
 - go through squares and check duplicates
+
+Algo2:
+- add elements to sets
+sets can be array of array<int, digit>
 */
 
 class Solution {
@@ -102,6 +106,44 @@ private:
             3*(square_idx / 3),
             3*(square_idx % 3)
         };        
+    }
+};
+
+class Solution {
+    using NumSets = array<unordered_set<int>, 9>;
+public:
+    bool isValidSudoku(const vector<vector<char>>& board) {
+        NumSets rows, cols, squares;
+        for (size_t i = 0; i < board.size(); ++i) {
+            for (size_t j = 0; j < board[0].size(); ++j) {
+                int el = parseNum(board[i][j]);
+                if (el == 0) continue;
+                if (!tryEmplace(rows[i], el)) return false;
+                if (!tryEmplace(cols[j], el)) return false;
+                auto sq_idx = getSquareIdx(i, j);
+                if (!tryEmplace(squares[sq_idx], el)) return false;
+            }
+        }
+        return true;
+    }
+    
+private:
+    static bool tryEmplace(unordered_set<int>& s, int val) {
+        if (auto it = s.find(val); it != s.end()) return false;
+        s.insert(val);
+        return true;
+    }
+    
+    static size_t getSquareIdx(size_t i, size_t j) {
+        size_t ix = i / 3;
+        size_t jx = j / 3;
+        return 3*ix + jx;
+    }
+    
+    static int parseNum(char c) {
+        if (c == '.') return 0;
+        assert('1' <= c && c <= '9');
+        return c - '0';
     }
 };
 
