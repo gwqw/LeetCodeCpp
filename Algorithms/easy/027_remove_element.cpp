@@ -29,10 +29,7 @@ for (int i = 0; i < len; i++) {
     print(nums[i]);
 }
 
-Algo:
-stable_partition
-
-Algo2:
+Algo1: 2 iterators
 sze = size
 ci = 0
 while ci < sze:
@@ -49,24 +46,23 @@ return sze
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-      //return stable_partition(begin(nums), end(nums), [val](int n){return n != val;}) - begin(nums);
-      int sze = nums.size();
-      int ci = 0;
-      while (ci < sze) {
-        if (nums[ci] == val) {
-          int j = ci+1;
-          while (j < sze && nums[j] == val) {++j;}
-          sze = shift(nums, ci, j, sze);
-        }
-        ci++;
-      }
-      
-      return sze;
+        nums.erase(remove(nums.begin(), nums.end(), val), nums.end());
+        return (int)nums.size();
     }
-    int shift(vector<int>& nums, int ci, int j, int sze) {
-      for (int i = 0; i < sze - j; ++i) {
-        nums[ci + i] = nums[j + i];
-      }
-      return sze - (j - ci);
+};
+
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        auto it = find(nums.begin(), nums.end(), val);
+        if (it == nums.end()) return nums.size();
+        size_t i = it - nums.begin();
+        for (size_t j = i+1; j < nums.size(); ++j) {
+            if (nums[j] != val) {
+                nums[i] = nums[j];
+                ++i;
+            }
+        }
+        return i;
     }
 };

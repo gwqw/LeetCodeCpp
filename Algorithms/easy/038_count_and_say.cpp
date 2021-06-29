@@ -50,7 +50,7 @@ public:
       for (int i = 1; i < n; ++i) {
         int value = 0;
         int cnt = 0;
-        vector<int> = out_v;
+        vector<int> v = out_v;
         out_v.clear();
         for (int j : v) {
           if (value == j) {
