@@ -16,6 +16,10 @@ Output: ""
 Note:
 A.length == 4
 0 <= A[i] <= 9
+
+Algo: try to find max hour
+
+Algo: generate next permutation and check it
 */
 
 class Solution {

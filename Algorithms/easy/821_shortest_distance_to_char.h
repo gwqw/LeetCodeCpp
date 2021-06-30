@@ -21,7 +21,7 @@ Algo1: O(NlogN) + O(N + P) = O(N) (P <= N), дополнительно O(P)
     
 Algo2: O(N) + O(N), дополнительной O(1)
 - create vector:
-- go right and write to array distances after smbol 'C'
+- go right and write to array distances after symbol 'C'
 - go left and write to array the same, but it will distances before symbol
 
 Algo3: O(N) + O(N) + дополнительной O(1)

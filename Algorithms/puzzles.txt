@@ -1,0 +1,179 @@
+Easy:
+
+    Arrays
+search 2 nums in array with target sum: make dict
+Longest Common Prefix in array of strings: for i: check if all symbols same
+remove duplicates in sorted array: 2 iterators: where to print, what to print
+remove element: 2 iterators
+move zeroes to the array end: 2 iterators + swap
+search insert pos in sorted array: binary search
+count same nums and say n nums: go n cycles and count same elements
+max sum subarray: dynamic: calc cur sum, if < 0 => to 0
+merge sorted arrays: shift first to array end, 2 iterators, copy and move less
+find sum in sorted array: 2 iterators from begin and from end
+majority element: nth-element for median
+rotate array: 1) new_i = (i+k)%n, move prev further, if cycle init++ 2) reverse array, reverse 0-k, reverse k..n
+contains duplicates: use map
+has duplicates in subarray size k: sliding window +set  size k
+first bad version: true, true, ..., true, false, false, ..., false: binary search
+reverse array: 2 iterators with swap
+intersection of 2 arrays (unique): list(set(nums1) & set(nums2)) or sort and move
+intersection of 2 arrays (not unique): use map[n]->cnt
+some nums are twice, some once: radix sort of 1-st part, check for existance in 1-st part
+array of nums, find number of moves to make all nums equal (move is inc n-1 element by 1): inc n-1 by 1 == dec 1 by 1: find min and sum all diffs
+next greater element for array1 in array2: using stack, make dict[num]->next greater from arr2
+shortest unsorted continuous subarray: go to the right and find rightest value < max, go to the left and find leftest value > min
+max harmonic (max-min==1) subseq: make dict[value]->cnt and for each value check neighbours
+max product of 3 nums: max_heap and min_heap, find 3 max and 2 mins by hand, partial sort
+missing number in array: radix(count) sort. sum values, sum indexes, res = sum_ind - sum_values
+array 1..n, one num -> another: 1) radix sort 2) sum and square sum
+array with one unsorted value: find left sorted boundary, find right, check if del is good
+longest subarray: go through array and if increasing: ++length else update max
+count binary substrings like 1..10..0: counters for 1 and for 0, mode: is counting 1 or 0, change mode and update num += min(c1,c0)
+array of 0, 10, 11, check if last is 0-bit: 1) go forward and check if is '0' or not. 2) check 11..10 tail (search 0 from behind), if 11 is even -- true
+list of stones and list of jewels, check is stone a jewel: make set from jewels
+letter case permutation (return all permutations change only letter case)
+maximize distance to closest person: max 0s, and 2*size-1 for edges
+find peak in peak array: binary search
+2 arrays, swap 2 nums to make sum the same: make set from second and check (s1+s2)/2-v in set
+split array on parities: 1) partition, 2) 2 iterators from begin and end
+split array on parities2 (if i is odd: a[i] - odd): 2 iterators from begin
+squares of sorted array: split neg and pos, square, merge 2 sorted arrays
+non-sorted array (find amount of swaps to make it sorted): sort and compare
+
+    String
+search word in text: poly-hash (Rabin-Karp)
+length of last word: go from end and search ' '
+valid palindrome: 2 iterators: go from begin and end (ignore any bad symbols)
+isomorphic string (can be obtained by replacing characters): go and make assoc map
+valid anagrams: dicts or sort
+word pattern (pattern 'abba', a-> word1, b->word2, ... "word1 word2 .. wordn"): 2 dicts
+first unique char: use dict
+t shuffled from s and 1 symb is added: 1) xor or sum, 2) dict
+is subsequence (deleting some symbols): dict[symb]->vector<int>(positions)
+longest palindrom from string: use dict[symb]->cnt, if cnt%2=0 add cnt, else add cnt-1 and cnt first time.
+compress string ("aaa"->"a3"): like unique
+repeated string pattern, string consist from the same repeated pattern (s: [abcabc]): s in s[1:]+s[:-1].
+check capitals for word: if 1st small -- all must be small, if 1st big -- all small or big
+reverse words in string: find end of word, reverse it in-place
+valid palindrome with one bad symbol: 2 iterators from begin and end and check if is palindrom. when false, check distance
+array of words, find max word can be built + 1 letter (it must be in array): 1) sort lexigraph. go and check lengths, 2) 
+rotated string (check if b is rotated a): find b in a+a
+shortest distance to char (array for every ch in str write shortest dist to given char in str): 2 pass: go forward and write distance from char, go backward and write distance before chare (update min)
+compare strings with backspaces: 2 iterators from end
+reverse only letters: 2 iterators
+name and typed name, where some letters can twice or triple or more, check if they same: 2 iterators
+alien language (have alphabet and words, check if they sorted lexicographical): make dict and check if sorted
+
+    Nums
+reverse integer: take digit, add it to answer
+is number palindrom: reverse number, compare with original
+roman 2 integer: go through with rules
+add 1 to nums in list: add 1 while 9
+add 2 binary str: have x, y, resid
+add num to long-arithm num
+square root of number: binary search
+single number each element twice: dict or xor
+factorial trailing zeroes: res = 5 counts + 25 counts + 125 counts
+num->sum of squares of digits->1 or cycle. calc_next, add to set
+count primes: Eratosphen i*i < n
+power of 2: n & (n-1) == false
+sum digits in num until res has one digit: n - digit_sum % 9 = 0 => n % 9 == digit_sum % 9
+power of 3: 1) while n % 3: n /= 3. 2) max(3^N) % n == 0
+power of 4: power of 2 and n % 3 == 1
+
+    Bits
+reverse bits: take bit as digit, put bit and shift
+number of 1 bit: n & (n-1) removes last one
+sum of 2 integers (wo + and -): a XOR b, and resid = (a & b) << 1, while resid > 0
+humming distance: xor and calc ones
+find complement numbers (inverse bits): find first 1, shift <<, ~, shift>>
+binary nums like 10101010: r = (x | (x << 1))>>1 = 1111111: r+1 is power of 2
+
+    List
+merge sorted lists: 2 iterators, move less
+remove in linked list: if val: make new link
+remove duplicates in sorted lists: if dup: make new link, else: move forward
+linked list cycle: hare and tortoise
+intersection of 2 lists: calc lengths, shift longer, go while not the same. 2 pointers go to the end and start from other list.
+reverse linked list: as stack
+list is palindrom: reverse 2nd part and compare
+delete node in lst: shift next value and move next ptr
+middle in ll: 1) calc length, 2) hare and tortoise
+
+    Tree
+same tree: dfs(nlr)
+symetric tree: dfs(nlr): p->left and q->right, p->right and q->left
+max depth: dfs: max(n->left, n->right)+1
+level order -> vectors: bfs or dfs(nlr)
+bst from sorted array: find center, make root, recursion on left part and right part
+balanced tree: get left height, right height, check if balanced
+min depth: bfs gives short scheme
+path sum in BT: dfs(nlr): check for sum-node->val in left and right
+invert BT (mirror, fail for Max Howell): dfs(nlr): swap left and right: recursion(left), recursion(right)
+LCA of BST: dfs: p <= node <= q
+all paths: dfs(nlr), use one string and cut cur symbol at exit
+count sum of left leaves: dfs (nlr) with from status
+convertBST node.val += sum all greater: dfs(rnl)
+longest path in BT: dfs(lrn) max_length = update_max(ll+rr+1), return max_line_length
+tree tilt (node->right->sum_of_all_vals - node->left->sum_of_all_vals): dfs calc sums and add to tilt
+is subtree: calc subtree height and check only for nodes with same height
+tree to string -> 1(2(4)(5)(3): dfs(nlr), use stringstream
+merge trees (sum node values): dfs(nlr)(t1, t2)
+average value in level: bfs
+sum of 2 nodes in tree == target: use hash_map or convert to vector
+trim BST to [L,R]: recursive dfs: if not in range return trim(n->left or right), iterative: find newroot, trim left, trim right
+second min value in tree like heap: use bfs with short scheme
+longest path with same value: dfs(lrn)
+search in bst: recursive: check node found or go to left or to right
+find min dist between nodes in BST: dfs(lnr) and take prev value
+leaf similar tree: dfs in parallel and compare leaves
+make 'list' from bst: dfs(rnl) and fill new tree from bottom
+calc sum in [L,R] in bst: recursive
+univalued tree (all nodes has same values): dfs and cmp n with root
+
+    DP and greedy
+climb stairs (1 or 2 steps) how many distinct ways: f[n] = f[n-1]+f[n-2]: dynamic with prev and cur
+climb stairs (1 or 2 steps) and cost at every stair: dp: min(prev, prevprev) + value
+valid parenthesis: push to stack
+best time to buy and sell stock (1 buy): calc min value from left, calc diff, find max diff
+best time to buy and sell stock (multy buy): if buying: go while can find less, if selling: go while can find more
+house robber (cannot rob 2 adj house): dynamic max(prev, cur+prev_prev)
+assign cookies with cj size to kids with gi greedness: sort both, for gi find min cj >= gi
+heaters (houses, heaters, find min radius): sort homes, sort heaters, for every house find closest heater and update radius
+find minimum abs diff in BST: dfs(lnr) and pass prev_element
+lemonade change (lem=5, byers=5 or 10 or 20, you must pay back): counters c5, c10
+
+    Other
+pascal triangle: got line by line and make a triangle
+excel columns: 1..26->A..Z, 26+1,...,26+26->AA..AZ
+Nim game (can take 1..n): can win if input % (n+1) != 0
+fizzBuzz: 1) if n%3, if n%5. 2) same but with counters
+construct rectangle from area close to square: w = sqrt(area), l = area / w, w-- while w*l != area
+largest time from 4 digits: 1) make max hour, make min, 2) generate next permutation and check it
+
+    Design
+min_stack: 2 stacks: with values and with mins
+queue with stacks: 2 stack: push to 1, pop from 2 (st1 -> st2)
+range sum query (have array of nums, ask sum in range i,j k times): use integral sums
+moving average in sliding window: use queue with fixed size
+print only messages if it wasn't printed last TIME_THRES: deque<time, msg>, dict[msg]->iterator_to_deque
+guess number higher or lower: binary search
+binary watch (get all times for number on-bits): 1) count 1-bit (while (n>0) n&=n-1), 2) nex_permutation
+Kth-largest element in stream: max_heap of size k
+Hash-map: vector<list<int key,int value>>, 
+MaxStack with pop_max: 1) 2 stacks, 2) list data and map[val]->it_list
+count calls in treshold: make queue, remove prev values to maintain fix size
+
+    Matrix
+calc island perimeter: for all 1s add 4 - num of neighbours
+reshape matrix: go throught element(i,j) and copy from mtrx(old_i, old_j)
+Toeplitz matrix (all back slash diagonals have same values): go through diag and check value
+overlap rectangles: !(x12 <= x21 || x11 >= x22)
+transpose matrix: res[j][i] = a[i][j]
+matrix and cell in matrix, return all cells in matrix sorted in manhatten distance: bfs
+cells with odd values: make set{col, row}
+row in matrix 1 and 0, find k with max sum: calc sum and get first k rows
+count negatives in row and col-sorted matrix: from end of 1st row, if neg: left, pos: down
+lucky num is min in row and max in col: collect mins in row and max in col, check for min element
+

@@ -23,9 +23,9 @@ Algo1: naive O(NlogN)
 - square array
 - sort array
 
-Algo2:
+Algo2: O(N)
 split array on a1: negative and a2: positive (non-negative)
-squre a1 and a2
+square a1 and a2
 reverse a2
 merge(a1, a2)
 
