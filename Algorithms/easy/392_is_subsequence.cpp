@@ -25,7 +25,7 @@ Algo1: naive O(Ns+Nt) + O(1)
 - find it's pos in t(from prev_pos)
 - if pos == npos return false
 
-Algo2: 2 iteratirs: O(Ns+Nt) + O(1)
+Algo2: 2 iterators: O(Ns+Nt) + O(1)
 - go both it:
     - if *it1 == *it2: ++it2
     - ++it1

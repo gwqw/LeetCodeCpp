@@ -35,7 +35,7 @@ Algo:
 111111x >>
 0111111 = r
 
-n | r = n
+r+1 is power of 2
 */
 
 class Solution {

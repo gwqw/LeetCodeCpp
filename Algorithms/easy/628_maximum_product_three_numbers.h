@@ -11,7 +11,7 @@ Input: [1,2,3,4]
 Output: 24
  
 Note:
-The length of the given array will be in range [3,104] and all elements are in the range [-1000, 1000].
+The length of the given array will be in range [3,10^4] and all elements are in the range [-1000, 1000].
 Multiplication of any three numbers in the input won't exceed the range of 32-bit signed integer.
 
 Algo1: naive O(N*logN) + O(logN) (sort can take logN)
@@ -37,7 +37,7 @@ Algo3: priority_queue O(N + logN)
 
 Algo4: find 2 mins and 3 max by hand
 
-
+Algo5: partial sort
 
 */
 
