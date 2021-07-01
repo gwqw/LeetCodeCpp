@@ -56,18 +56,6 @@ public:
 		        }
 		    }
 		}
-//		cout << "palis:\n";
-//		for (size_t i=0; i < palis.size(); ++i) {
-//		    cout << "i: " << i << '\n';
-//		    const auto& res = palis[i];
-//		    for (const auto& l : res) {
-//                for (const auto& w : l) {
-//                    cout << w << ", ";
-//                }
-//                cout << '\n';
-//            }
-//        }
-		
 		return palis.back();
     }
 private:

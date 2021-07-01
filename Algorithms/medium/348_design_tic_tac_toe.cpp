@@ -47,6 +47,9 @@ toe.move(2, 1, 1); -> Returns 1 (player 1 wins)
 Follow up:
 Could you do better than O(n2) per move() operation?
 
+Algo1: bf check
+
+Algo2: make counters for rows, cols and diags for every player
 
 */
 

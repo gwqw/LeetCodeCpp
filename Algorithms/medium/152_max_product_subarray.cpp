@@ -82,6 +82,31 @@ public:
     }
 };
 
+class Solution {
+public:
+    int maxProduct(const vector<int>& nums) {
+        int prod = nums[0];
+        int max_prod = prod;
+        for (size_t i = 1; i < nums.size(); ++i) {
+            if (prod == 0) 
+                prod = nums[i];
+            else
+                prod *= nums[i];
+            max_prod = max(max_prod, prod);
+        }
+        prod = nums.back();
+        max_prod = max(max_prod, prod);
+        for (size_t i = nums.size()-1; i-->0; ) {
+            if (prod == 0) 
+                prod = nums[i];
+            else
+                prod *= nums[i];
+            max_prod = max(max_prod, prod);
+        }
+        return max_prod;
+    }
+};
+
 /*
 
 */
