@@ -42,6 +42,8 @@ Algo: O(N) + O(N, tempRange)
 75, 2
 76, 6
 
+Algo: monotonic stack
+
 Algo: dynamic programing: O(N) + O(1)
 - go from the end
 - search greater to the right

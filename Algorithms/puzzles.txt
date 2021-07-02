@@ -61,6 +61,18 @@ non-sorted array (find amount of swaps to make it sorted): sort and compare
 (376) wiggle subseq (diff +,-,+): take only peaks
 (377) all combination sum to target: dp with memoisation
 (384) shuffle array: from end rand() index and swap with last
+(416) partition array at equal sum: dp: calc all availiable sums for prefix: dp[i] = prev[i] or prev[i-x]
+(454) 4 arrays, find all 4-tuples, sum = 0: precalc a+b and c+d
+(456) 132-pattern: sliding window and 2 maps, monotonic stack
+(487) max conseq seq of 1 (1 zero can flip to 1): go and have 2 length with flip and without
+(494) calc all sums to target: 1) dp + recursion, 2) dp[prefix][sum]
+(560) subarray of sum equal to target: 1) integral sum + dict, 2) if positive: sliding window
+(658) find k closest to x: 1) find x and enlarge window with 2 iterators, 2) binary search of window
+(739) daily temperatures (count days to wait warmer t): monotonic stack
+(974) array of int, return number of sums // target: calc sum for prefix and dict[resid]
+(1004) max consec. of 1 (can flip k zeros): ones count, zero_count
+(1395) for array count i,j,k (a[i] < a[j] < a[k] or >): for center find lesser and greater cnt from the left and from the right
+(1493) longest array after deleting one: use flip cnt and not used
 
     String
 search word in text: poly-hash (Rabin-Karp)
@@ -97,6 +109,12 @@ alien language (have alphabet and words, check if they sorted lexicographical): 
 (334) increasing triplet subseq: like find 3 mins
 (394) decode string: recursion
 (395) longest substring with k-repeating char: divide and conquer: divide on cnt[char]<k, if cannot divide: return length
+(438) find all anagrams: sliding window + dict
+(467) unique substrings in wrap alphabet: dp[letter][length] count of strings ending here
+(567) str contains permutation of str2: sliding window + dict
+(647) count palindrom substr: for every c, count if pali center
+(1249) minimum remove to make valid parenthesis: go forward and remove bad ')', go backward and remove bad '('
+
 
     combinations
 (017) letter combination as phone num: 1) backtracking, 2) fill prefixs, add each letter to each prefix
@@ -124,6 +142,7 @@ power of 4: power of 2 and n % 3 == 1
 (050) pow: bin_split (recursion or iterative), iter: a^(2*n) -> (a^2)^n
 (279) num is sum of squares (min elemens): dp: dp[n] = min(dp[n], dp[n-i*i]+1)
 (343) split integer on sum with max product: try to add max 3 and 2 after that
+(470) rand10 from rand7: generate 7s digit, generate 1s digit, shrink range
 
     Bits
 reverse bits: take bit as digit, put bit and shift
@@ -149,6 +168,7 @@ copy list with rnd ptr: copy and create dict: node1->node2
 cycle in ll: tortoise and hare (after meet, hare from begin)
 (148)sort list: merge sort
 (328)odd and even: 4 pointer: o, e, prev_o, prev_e
+(023) merge k-sorted lists: min heap and add heads
 
     Tree
 same tree: dfs(nlr)
@@ -192,6 +212,11 @@ univalued tree (all nodes has same values): dfs and cmp n with root
 (230)kth smallest in BST: dfs lnr
 (236)lowest common ancestor: dfs with 2 flags found or ptr
 (337) house robber in BT: dfs with 2 sums with node and wo
+(437) path sum (all sum to target): dfs + calc prefix sum to dict[sum]->cnt
+(863) all nodes with distance k: search node, if search dfs and calc distance
+(1448) count good nodes (node with max value from root): go from root, if val >= max: ++good_nodes
+(1650) LCA for BT with ptr to parent(p, q are given): check if p is parent, go to parent, remember from where and searh q.
+(124) BT maxim sum path: dfs and check 3 sums, return 2
 
     DP and greedy
 climb stairs (1 or 2 steps) how many distinct ways: f[n] = f[n-1]+f[n-2]: dynamic with prev and cur
@@ -211,6 +236,8 @@ lemonade change (lem=5, byers=5 or 10 or 20, you must pay back): counters c5, c1
 (309) best time to buy and sell with cooldown: 3 dp: for last sell: best_buy, max_best_buy, dp
 (322) coin change: dp[n] = min(dp[n-c]+1, dp[n])
 (368) largest divis subset with ni%nj==0: dp: check for all prev if // and max
+(986) interval list intersection: 2 iterators, move less
+(042) trapping rain water: 1) using maps: calc area between 2 max and remove them, 2) dp + go forward and backward dp = max_h - hi, min for directions 
 
     Other
 pascal triangle: got line by line and make a triangle
@@ -223,11 +250,17 @@ largest time from 4 digits: 1) make max hour, make min, 2) generate next permuta
 (356) line reflection (line || y, mirror reflects points): split by y, check all have d -distance to symmetry axis
 (375) guess number higher or lower with weights: dp for len, for left and medium
 (406) reconstruct queue from height and people before: greedy: sort by height, take smallest, so who  taller -- idx 
+(528) random pick with weights: pdf + bin_search
+(621) task scheduler: math: max count of symbol (make dict): mc-1 * idle_time + same symbols or task.size()
+(743) network delay: while for
+(973) k-closest points on 2d: parital-sort or nth-element with lambda
+(1041) robot bound in circle (have moving sequence: move, turn left or right): finit: change direction or stayed on the same place
 
     Graph
 (207) course schedule (can be): search cycle in graph (marks: 0, 1, 2)
 (210) course schedule2 (schedule): use topological sort and push to vector
 (332) reconstruct airplane flights from ticket: make graph
+(127) Word ladder (make path for chain of words, changing by 1 letter): make grap and use bfs
 
     Matrix
 calc island perimeter: for all 1s add 4 - num of neighbours
@@ -278,3 +311,18 @@ count calls in treshold: make queue, remove prev values to maintain fix size
 (348) design tic-tac-toe: make counters for rows, cols and diags for every player
 (362) hit counter: use queue[value], or queue[{value, counter}]
 (380) insert, delete, get random: dict[val]->idx
+(622) circular queue: vector with start and end, + size
+(676) magic dict (can find word with one changed letter): dict[lenght]->[words]
+(900) RLE-iterator (encoded string 3a): have idx and cnt
+(981) time-based kv-store: dict[key]->{time_stamp, value}
+(1146) snapshot array: vector<vector<cur_snap, val>> and bin_search
+(1188) bounded blocking queue: queue with mutex and 2 cond variables
+(1381) stack with inc: vector<value, inc for all bottom>
+(1396) design underground system: for start and end station find average time
+(1429) show first unique number: queue and dict[num]->cnt
+(1570) sparse vector, dot product: vector{idx, value}
+(295) find median from data stream: make 2 heap (max and min)
+(381) insert del rand with duplicates: dict[value]->{idx in vector}, vector of values
+(432) all O1 data structure (inc, dec, getMaxKey, getMinKey): dict[key]->list::iterator, list {value, {keys}}
+(460) LFU cache (least freaq. used throw up) get, put: frequency always grows, dict[key]->list::iter, dict2[freq]->list<Event>, Event(key, value, freq), min_freq
+(895) Maximum freq stack: dict[num]->freq, dict[freq]->[nums] and not pop from dict[freq]->num at push
