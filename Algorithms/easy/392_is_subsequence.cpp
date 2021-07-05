@@ -66,6 +66,19 @@ public:
         return false;
     }
 };
+class Solution {
+public:
+    bool isSubsequence(const string& s, const string& t) {
+        for (size_t i = 0, j = 0; i < s.size(); ++i) {
+            while (j < t.size() && s[i] != t[j]) {
+                ++j;
+            }
+            if (j == t.size()) return false;
+            ++j;            
+        }
+        return true;
+    }
+};
 
 class Solution {
 public:

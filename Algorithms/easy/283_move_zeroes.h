@@ -22,15 +22,11 @@ Algo:
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-        auto it_ins = nums.begin();
-        while (it_ins != nums.end() && *it_ins != 0) {
-            ++it_ins;
-        }
-        if (it_ins == nums.end()) return;
-        auto it_fwd = next(it_ins);
-        for (;it_fwd != nums.end(); ++it_fwd) {
-            if (*it_fwd != 0) {
-                swap(*it_ins++, *it_fwd);
+        auto it = find(nums.begin(), nums.end(), 0);
+        if (it == nums.end()) return;
+        for (auto jt = next(it); jt < nums.end(); ++jt) {
+            if (*jt != 0) {
+                swap(*it++, *jt);
             }
         }
     }
@@ -44,5 +40,15 @@ public:
             [](int lhs, int rhs){ return lhs != 0 && rhs == 0;});
     }
 };
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        // or stable_partition
+        stable_partition(nums.begin(), nums.end(), 
+            [](int val){ return val != 0;});
+    }
+};
+
 
 
