@@ -50,6 +50,7 @@ Algo4: like Algo2, but rec(pref, remaining)
 - pop from prefix
 - insert in remaining
 
+Algo5: backtracking
 */
 
 class Solution {
@@ -156,6 +157,37 @@ private:
         return res;
     }
 };
+
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> cur(nums.size());
+        unordered_set<int> used;
+        rec(nums, cur, 0, used, res);
+        return res;
+    }
+private:
+    void rec(const vector<int>& nums, vector<int> cur, size_t b,
+            unordered_set<int> used, vector<vector<int>>& res
+    ) {
+        if (b == nums.size()) {
+            res.push_back(cur);
+            return;
+        }
+        
+        for (auto n : nums) {
+            if (used.count(n)) continue;
+            cur[b] = n;
+            used.insert(n);
+            rec(nums, cur, b+1, used, res);
+            used.erase(n);
+        }
+    }
+};
+
+
+
 
 
 

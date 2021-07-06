@@ -35,93 +35,41 @@ nums2.length == n
 -10^6 <= nums1[i], nums2[i] <= 10^6
 
 Algo: binary_search
-if a1.last < a2.first or a2.last < a1.first: search in 1 array
-a1..an:
-l.. r
-m = mid;
-find j: max a[j] < a[i]
-check j + i == (n1+n2) / 2
-
+binary search in small:
+    in second position = k - m, where k -- position in unified sorted array
 
 */
 
 class Solution {
 public:
-    double findMedianSortedArrays(const vector<int>& a1, const vector<int>& a2) {
-        size_t n1 = a1.size();
-        size_t n2 = a2.size();
-        if (n1 == 0 or n2 == 0) {
-            return simpleMedian(a1, a2);
-        }
-        if (a1.back() <= a2[0]) {
-            return simpleMedian(a1, a2);
-        } else if (a2.back() <= a1[0]) {
-            return simpleMedian(a2, a1);
-        }
-        int l = 0;
-        int r = n1;
-        int hl = (n1+n2)/2;
-        while (l+1 < r) {
-            int i = (l+r)/2;
-            auto it = upper_bound(a2.begin(), a2.end(), a1[i]);
-            int j = it - a2.begin();
-            --j;
-            if (i+j == hl) {
-                return calcMedian(a1, a2, i, j-1);
-            } else if (i+j < hl) {
-                l = i+1;
+    double findMedianSortedArrays(const vector<int>& a, const vector<int>& b) {
+        if (a.size() > b.size()) {findMedianSortedArrays(b, a);}
+        size_t an = a.size();
+        size_t bn = b.size();
+        size_t k = (an + bn - 1) / 2;
+        size_t l = 0;
+        size_t r = min(an, k);
+        while (l < r) {
+            size_t m1 = l + (r - l) / 2;
+            size_t m2 = k - m1;
+            if (a[m1] < b[m2]) {
+                l = m1+1;
             } else {
-                r = i;
+                r = m1;
             }
         }
-        int i = l;
-        int j = hl - i;
-        return calcMedian(a1, a2, i, j);
-    }
-    
-private:
-    double simpleMedian(const vector<int>& a1, const vector<int>& a2) {
-        size_t n1 = a1.size();
-        size_t n2 = a2.size();
-        int m = (n1+n2) / 2;
-        if (m == 0) {
-            return n1 != 0 ? a1[0] : a2[0];
-        }
-        if ((n1 + n2) % 2 == 0) {
-            int r = (m >= n1) ? a2[m-n1] : a1[m];
-            int l = (m-1 >= n1) ? a2[m-1-n1] : a1[m-1];
-            return (l+r) / 2.0;
+        
+        // median is between a[l-1], a[l], b[k-l], b[k-l+1]
+        int al1 = l > 0 && l < an+1 ? a[l-1] : INT_MIN;
+        int bkl = k >= l && k < bn+l ? b[k-l] : INT_MIN;
+        int al = l >= 0 && l < an ? a[l] : INT_MAX;
+        int bkl1 = k+1 >= l && k+1 < bn+l ? b[k-l+1] : INT_MAX;
+        // if n % 2 == 1: max(a[l-1], b[k-l])
+        if ((an+bn) % 2 == 1) {
+            return max(al1, bkl);
         } else {
-            return (m >= n1) ? a2[m-n1] : a1[m];
-        }
-    }
-    
-    double calcMedian(const vector<int>& a1, const vector<int>& a2, int i, int j) {
-        size_t n1 = a1.size();
-        size_t n2 = a2.size();
-        int m = (n1+n2) / 2;
-        if ((n1 + n2) % 2 == 0) {
-            int r = 0;
-            if (i == -1 || i == a1.size()) {
-                r = a2[j];
-            } else if (j == -1 || j == a2.size()) {
-                r = a1[i];
-            } else {
-                r = min(a1[i], a2[j]);
-            }
-            int l = 0;
-            if (i <= 0) {
-                l = a2[j-1];
-            } else if (j <= 0) {
-                l = a1[i-1];
-            } else {
-                l = max(a1[i-1], a2[j-1]);
-            }
-            return (l + r) / 2.0;
-        } else {
-            if (i == a1.size() || i < 0) return a2[j];
-            if (j == a2.size() || j < 0) return a1[i];
-            return min(a1[i], a2[j]);
+        // if even max(a[l-1], b[k-l]) and min(a[l], b[k-l+1])
+            return double(max(al1, bkl) + min(al, bkl1)) / 2.0;
         }
     }
 };
