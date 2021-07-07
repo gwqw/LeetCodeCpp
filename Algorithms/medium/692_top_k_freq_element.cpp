@@ -18,11 +18,27 @@ You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
 Input words contain only lowercase letters.
 Follow up:
 Try to solve it in O(n log k) time and O(n) extra space.
+
+Algo: counter (dict) and partial sort with lambda
 */
 
 class Solution {
 public:
     vector<string> topKFrequent(vector<string>& words, int k) {
-        
+        unordered_map<string, int> dict;
+        vector<string> res;
+        res.reserve(words.size());
+		for (const auto& word : words) {
+		    if (!dict.count(word)) res.push_back(word);
+			++dict[word];
+		}
+		
+		partial_sort(res.begin(), res.begin() + k, res.end(), 
+			[&dict](const auto& lhs, const auto& rhs){
+				return dict[lhs] > dict[rhs] || 
+					(dict[lhs] == dict[rhs] && lhs < rhs);
+			}
+		);
+		return {res.begin(), res.begin() + k};
     }
 };

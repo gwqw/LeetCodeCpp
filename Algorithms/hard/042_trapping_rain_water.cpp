@@ -125,11 +125,8 @@ public:
         maxh = 0;
         for (size_t i = h.size(); i-->0; ) {
             maxh = max(maxh, h[i]);
-            hf[i] = min(hf[i], maxh - h[i]);
-            area += hf[i];
+            area += min(hf[i], maxh - h[i]);
         }
         return area;
     }
 };
-
-

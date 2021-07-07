@@ -33,34 +33,28 @@ n - list length, k - num of lists
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        auto cmp = [](ListNode* lhs, ListNode* rhs) {return lhs->val > rhs->val;};
+        auto cmp = [](ListNode* lhs, ListNode* rhs){
+            return lhs->val > rhs->val;
+        };
         priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);
-        // make min_heap
-        for (auto list : lists) {
-            if (list) {
-                pq.push(list);
+        for (auto head : lists) {
+            if (head) {
+                pq.push(head);
             }
         }
-        // get answer
-        ListNode* res = nullptr;
-        ListNode* last = nullptr;
+        if (pq.empty()) return nullptr;
+        auto head = pq.top();
+        pq.pop();
+        if (head->next) pq.push(head->next);
+        auto cur = head;
         while (!pq.empty()) {
-            auto list = pq.top();
+            auto node = pq.top();
             pq.pop();
-            if (!res) {
-                res = list;
-                last = res;
-            } else {
-                last->next = list;
-                last = last->next;
-            }
-            if (list->next) {
-                pq.push(list->next);
-            }
+            cur->next = node;
+            cur = node;
+            if (node->next) pq.push(node->next);
         }
-        if (last) {
-            last->next = nullptr;
-        }
-        return res;
+        assert(cur->next == nullptr);
+        return head;
     }
 };

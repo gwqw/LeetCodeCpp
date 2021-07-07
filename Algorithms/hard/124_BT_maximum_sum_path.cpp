@@ -21,7 +21,7 @@ The number of nodes in the tree is in the range [1, 3 * 10^4].
 Algo: df(lrn)+dp
 max_sum_l, line_sum_l = visit(node->left)
 max_sum_r, line_sum_r = visit(node->right)
-line_sum = max(line_sum_l, line_sum_r) + node->val
+line_sum = max(max(line_sum_l, line_sum_r) + node->val, node->val)
 max_sum = max(max_sum_l, max_sum_r, line_sum, line_sum_l + line_sum_r + node->val)
 
 */
