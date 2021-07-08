@@ -23,12 +23,52 @@ s represents a valid expression.
 All the integers in the expression are non-negative integers in the range [0, 2^31 - 1].
 The answer is guaranteed to fit in a 32-bit integer.
 
-Algo:
+Algo1:
 - tokenize
 - first pass: make op *, /
 - second pass: op +, -
 return
 
+Algo2: метод рекурсивного спуска
+expression = term {('+' | '-') term }
+term = factor {('*') factor }
+factor = number | ('-') factor
+number = 0..9 {0..9}
+
+expression():
+t1 = term()
+while (true):
+    if (c == '+') {
+        t2 = term()
+        t1 += t2
+    } else if (c == '-') {
+        t2 = term()
+        t1 -= t2
+    } else {
+        return t1
+    }
+
+term:
+    f1 = factor()
+    while true:
+        if c == '*':
+            t2 = factor()
+            t1 *= t2
+        else if c == '/':
+            t2 = factor()
+            t1 /= t2
+            
+factor:
+    return number()
+    
+number:
+    n = 0
+    while c in {0..9}:
+        d = c - '0'
+        n = n*10 + d
+        nextChar()
+    return n
+    
 */
 
 class Solution {
@@ -97,4 +137,115 @@ private:
         }
         throw runtime_error("Smth goes wrong");
     }    
+};
+
+
+/*
+expression():
+t1 = term()
+while (true):
+    if (c == '+') {
+        t2 = term()
+        t1 += t2
+    } else if (c == '-') {
+        t2 = term()
+        t1 -= t2
+    } else {
+        return t1
+    }
+
+term:
+    f1 = factor()
+    while true:
+        if c == '*':
+            t2 = factor()
+            t1 *= t2
+        else if c == '/':
+            t2 = factor()
+            t1 /= t2
+            
+factor:
+    return number()
+    
+number:
+    n = 0
+    while c in {0..9}:
+        d = c - '0'
+        n = n*10 + d
+        nextChar()
+    return n
+*/
+
+class Solution {
+public:
+    int calculate(string_view s) {
+        this->s = s;
+        readNext();
+        return expression();
+    }
+
+private:
+    int expression() {
+        int t1 = term();
+        while (true) {
+            if (c == '+') {
+                readNext();
+                int t2 = term();
+                t1 += t2;
+            } else if (c == '-') {
+                readNext();
+                int t2 = term();
+                t1 -= t2;
+            } else {
+                return t1;
+            }
+        }
+    }
+    
+    int term() {
+        int f1 = factor();
+        while (true) {
+            if (c == '*') {
+                readNext();
+                int f2 = factor();
+                f1 *= f2;
+            } else if (c == '/') {
+                readNext();
+                int f2 = factor();
+                f1 /= f2;
+            } else {
+                return f1;
+            }
+        }
+    }
+    
+    int factor() {
+        return number();
+    }
+    
+    int number() {
+        int n = 0;
+        while ('0' <= c && c <= '9') {
+            int d = c - '0';
+            n = n*10 + d;
+            readNext();
+        }
+        return n;
+    }
+    
+    void readNext() {
+        if (pos == s.size()) {
+            c = -1;
+            return;
+        }
+        c = s[pos++];
+        while (pos < s.size() && c == ' ') {
+            c = s[pos++];
+        }
+    }
+
+private:
+    string_view s;
+    int pos = 0;
+    int c = 0;
 };

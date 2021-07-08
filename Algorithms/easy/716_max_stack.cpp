@@ -27,6 +27,8 @@ Algo1: 2 stacks O(N) for pop_max, O(1) for other, O(N) for mem
 
 Algo2: list for vals and map for max[val]->it: O(logN) for all operations, O(N) mem
 
+Algo3 : list + monotnoic stack (not working)
+
 */
 
 class MaxStack {
@@ -131,6 +133,7 @@ private:
     map<int, vector<Iterator>> maxs;
 };
 
+
 /**
  * Your MaxStack object will be instantiated and called as such:
  * MaxStack* obj = new MaxStack();
@@ -140,3 +143,6 @@ private:
  * int param_4 = obj->peekMax();
  * int param_5 = obj->popMax();
  */
+
+
+
