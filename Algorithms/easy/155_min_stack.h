@@ -31,15 +31,18 @@ Algo: two stacks, one saves value, next saves mins on this step: O(1) -- all ope
 - getMin:
     - return stm.top()
     
-Algo (unworking): one stack and min_value
-- make one stack, and min_value as MAX_INT
+Algo2: stack and monotonic stack
+- make stv, stm
 - push:
-    - push value to st
-    - if min_value < value: min_value = value
+    - push value to stv
+    - push if stm.empty() or value <= stm.top()
 - pop:
-    - pop_val = st.top
-    - st.pop
-    - if pop_val == min_value: min_value = st.top
+    - pop val from stm if stm.top() == stv.top()
+    - pop val from stv
+- top:
+    - return stv.top()
+- getMin:
+    - return stm.top()
     
 
 */
@@ -63,6 +66,39 @@ public:
     void pop() {
         stv.pop();
         stm.pop();
+    }
+    
+    int top() {
+        return stv.top();
+    }
+    
+    int getMin() {
+        return stm.top();
+    }
+    
+private:
+    stack<int, vector<int>> stv, stm;
+};
+
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    
+    void push(int x) {
+        stv.push(x);
+        if (stm.empty() || x <= stm.top()) {
+            stm.push(x);
+        }
+    }
+    
+    void pop() {
+        if (stv.top() == stm.top()) {
+            stm.pop();
+        }
+        stv.pop();
     }
     
     int top() {

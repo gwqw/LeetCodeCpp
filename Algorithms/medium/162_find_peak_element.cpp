@@ -27,10 +27,7 @@ Algo:
 - check if a[l] > a[l+1]: return a[l]
 - l -- r: peak is into
     - m = (l+r)/2
-    - check if a[l] > a[l+1]: return a[l]
-    - l -- r: peak is into
-    - m = (l+r)/2
-    - m: l+1<r
+    - while l+1<r:
         if a[m] < a[m+1]:
             l <- m+1
         if a[m] > a[m+1]:

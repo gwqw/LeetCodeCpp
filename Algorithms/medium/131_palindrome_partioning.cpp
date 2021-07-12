@@ -20,20 +20,18 @@ w=1: 1
 w=2: search w=2 if found: add polynoms from str_part
 w=3: search w=3 if ...
 
-Algo: dp O(N^3)
+Algo1: dp O(N^2)
 for e in len(s): for all prefixes, e = end of prefix: O(N)
     for i in 0, e:  O(N)
-        if is_palindrom(i,e): O(N)
+        if is_palindrom(i,e): O(1)
             pali = s[i,e]
-            pali[i] += pali[j] + pali
+            pali[i] += pali[i-1] + pali
 	return pali[-1]
+	
+Algo2: same but use is_pali as dp
+
+Algo3: is_pali: vector[first] -> list of ends
 */
-
-#include <vector>
-#include <string>
-#include <iostream>
-
-using namespace std;
 
 class Solution {
 public:
@@ -68,15 +66,42 @@ private:
     }
 };
 
-int main() {
-    Solution sol;
-    auto res = sol.partition("aaaaaaaaaaaaaaaa");
-    cout << "res.size: " << res.size() << endl;
-//    for (const auto& l : res) {
-//        for (const auto& w : l) {
-//            cout << w << ", ";
-//        }
-//        cout << '\n';
-//    }
-    return 0;
-}
+class Solution {
+public:
+    vector<vector<string>> partition(const string& s) {
+		vector<vector<vector<string>>> palis(s.size());
+		palis[0].push_back({string{s[0]}});
+		auto is_pali = checkForPalis(s);
+		for (size_t e = 1; e < s.size(); ++e) {
+		    for (size_t i = 0; i <= e; ++i) {
+		        if (is_pali[i][e]) {
+		            string pali = s.substr(i, e-i+1);
+		            vector<vector<string>> curp = i > 0 ? palis[i-1] : vector<vector<string>>{};
+		            if (!curp.empty()) {
+		                for (auto& p : curp) {
+        		            p.push_back(pali);
+        		            palis[e].push_back(p);
+		                }
+		            } else {
+		                palis[e].push_back({pali});
+		            }
+		        }
+		    }
+		}
+		return palis.back();
+    }
+private:
+    vector<vector<char>> checkForPalis(string_view s) {
+        vector<vector<char>> is_pali(s.size(), vector<char>(s.size(), 1));
+        for (size_t i = 0; i+1 < s.size(); ++i) {
+            is_pali[i][i+1] = s[i] == s[i+1];
+        }
+        for (size_t len = 3; len <= s.size(); ++len) {
+            for (size_t start = 0; start+len <= s.size(); ++start) {
+                size_t end = start + len - 1;
+                is_pali[start][end] = s[start] == s[end] && is_pali[start+1][end-1];
+            }
+        }
+        return is_pali;
+    }
+};
