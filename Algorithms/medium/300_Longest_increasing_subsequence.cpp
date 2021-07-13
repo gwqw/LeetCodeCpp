@@ -45,9 +45,13 @@ Algo3: dp3 O(N^2), O(N) mem
 use vector as dict, original -- keys, new -- lengths
 
 Algo4: O(N*logN)
-vec len -> min_num with this len
+because in dp number with same lenghts decreases, so good idea to take smallest number (last):
+vector[len] -> minimum num with this len
+vec will increasing
+init fill vector with inf.
 for new num:
-    search first bigger num and add change it on new num: O(logN)
+    search first bigger num in vector and add change it on new num: O(logN)
+we can binary find max length or remember it
 */
 
 class Solution {
