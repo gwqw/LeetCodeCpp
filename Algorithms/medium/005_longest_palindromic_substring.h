@@ -23,7 +23,10 @@ Algo2: dp: O(N^2) + O(N^2)
 		mtx[i, j] = mtx[i+1, j-1] and a[i] == a[j]
 	update(max_length)
 
-Algo3: go from center: O(N^2)
+Algo3: 2 pointers, go from center: O(N^2)
+for i in n:
+    check if palindrome with center in i
+    check if palindrome with center in i, i+1
 */
 
 class Solution {
@@ -88,10 +91,35 @@ public:
     }
 };
 
-/*
-"babad"
-"cbbd"
-"ccc"
-"abcba"
-"bananas"
-*/
+class Solution {
+public:
+    string longestPalindrome(string_view s) {
+        if (s.size() <= 1) return string(s);
+        size_t n = s.size();
+        int max_length = 1;
+        size_t from = 0;
+        for (size_t i = 0; i+1 < s.size(); ++i) {
+            // check is pali with center in i
+            findPalindrome(s, i, i, max_length, from);
+            // check is pali with center in i, i+1
+            if (s[i] == s[i+1]) {
+                findPalindrome(s, i, i+1, max_length, from);
+            }
+        }
+        return string(s.substr(from, max_length));
+    }
+    
+private:
+    void findPalindrome(string_view s, size_t l, size_t r, int& max_length, size_t& from) {
+        while (l > 0 && r+1 < s.size()) {
+            if (s[l-1] != s[r+1]) break;
+            --l;
+            ++r;
+        }
+        if (r-l+1 > max_length) {
+            max_length = r-l+1;
+            from = l;
+        }
+    }
+};
+
