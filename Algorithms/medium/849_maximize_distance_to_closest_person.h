@@ -73,6 +73,26 @@ public:
         return (max_zeros.second + 1) / 2;
     }
 };
+class Solution {
+public:
+    int maxDistToClosest(const vector<int>& seats) {
+        int zc = 0;
+        auto it = find(seats.begin(), seats.end(), 1);
+        int covid_dist = it - seats.begin();
+        for (auto n : seats) {
+            if (n == 0) {
+                ++zc;
+            } else if (zc != 0) {
+                covid_dist = max(covid_dist, (zc-1) / 2 + 1);
+                zc = 0;
+            }
+        }
+        if (zc != 0) {
+            covid_dist = max(covid_dist, zc);
+        }
+        return covid_dist;
+    }
+};
 
 /*
     1 0 0 0 1 0 1

@@ -25,6 +25,49 @@ Algo: use dfs for path search
 */
 
 class Solution {
+    using Graph = unordered_map<string_view, vector<string_view>>;
+    using VisitedStruct = unordered_map<string_view, vector<bool>>;
+public:
+    vector<string> findItinerary(const vector<vector<string>>& tickets) {
+       auto [graph, used] = makeGraph(tickets);
+       vector<string> res;
+       dfs(graph, "JFK", used, res);
+       reverse(res.begin(), res.end());
+       return res;
+    }
+
+private:
+    pair<Graph, VisitedStruct> makeGraph(const vector<vector<string>>& tickets) {
+        Graph graph;
+        VisitedStruct used;
+        for (const auto& ticket : tickets) {
+            graph[ticket[0]].push_back(ticket[1]);
+        }
+        for (auto& [from, to] : graph) {
+            sort(to.begin(), to.end());
+            used[from].resize(to.size(), false);
+        }
+        return {graph, used};
+    }
+    
+    void dfs(const Graph& graph, string_view node, 
+        VisitedStruct& used, vector<string>& res)
+    {
+        if (graph.count(node)) {
+            size_t i = 0;
+            for (auto n : graph.at(node)) {
+                if (used.count(node) && !used[node][i]) {
+                    used[node][i] = true;
+                    dfs(graph, n, used, res);
+                }
+                ++i;
+            }
+        }
+        res.emplace_back(node);
+    }
+};
+
+class Solution {
     using Graph = unordered_map<int, vector<int>>;
     using Edge = pair<int, int>;
     using UnusedTickets = map<Edge, int>;

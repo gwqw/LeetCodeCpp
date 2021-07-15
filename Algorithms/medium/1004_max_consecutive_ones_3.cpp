@@ -58,7 +58,6 @@ public:
             }
             ++r;
         }
-        zeroes = min(zeroes, k);
         return max(max_ones, ones + zeroes);
     }
 };
