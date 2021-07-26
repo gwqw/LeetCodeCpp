@@ -43,17 +43,15 @@ class Solution {
 public:
     bool isOneEditDistance(string_view s, string_view t) {
         if (s.size()+1 < t.size() || t.size()+1 < s.size()) return false;
-        if (s == t) return false;
         size_t i = 0;
         for (; i < min(s.size(), t.size()); ++i) {
             if (s[i] != t[i]) break;
         }
-        if (i != t.size())
-            if (s.substr(i) == t.substr(i+1)) return true;
-        if (i != t.size() && i != s.size())
-            if (s.substr(i+1) == t.substr(i+1)) return true;
-        if (i != s.size())
-            if (s.substr(i+1) == t.substr(i)) return true;
+        if (i == s.size() && s.size() == t.size()) return false;
+        if (i == t.size() || i == s.size()) return true;
+        if (s.substr(i) == t.substr(i+1)) return true;
+        if (s.substr(i+1) == t.substr(i+1)) return true;
+        if (s.substr(i+1) == t.substr(i)) return true;
         return false;
     }
 };

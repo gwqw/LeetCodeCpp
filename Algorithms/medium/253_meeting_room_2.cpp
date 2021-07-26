@@ -55,3 +55,21 @@ public:
     }
 };
 
+class Solution {
+public:
+    int minMeetingRooms(vector<vector<int>>& intervals) {
+        map<int, int> rooms;
+        for (const auto& i : intervals) {
+            ++rooms[i[0]];
+            --rooms[i[1]];
+        }
+        int ans = 0;
+        int max_cnt = 0;
+        for (const auto [_, cnt] : rooms) {
+            ans += cnt;
+            if (max_cnt < ans) max_cnt = ans;
+        }
+        return max_cnt;
+    }
+};
+
