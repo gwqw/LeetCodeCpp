@@ -31,6 +31,8 @@ Algo1: graph search linked components(dfs): O(n*m)
 
 Algo2: floodfill: change to 0 using dfs: O(n*m)
 
+Algo3: disjoint sets (union find)
+
 */
 
 //Algo1
@@ -150,6 +152,82 @@ private:
         if (j > 0) dfs(i, j-1, grid);
         if (i+1 < n) dfs(i+1, j, grid);
         if (i > 0) dfs(i-1, j, grid);
+    }
+    
+    size_t n = 0;
+    size_t m = 0;
+};
+
+// union find
+using Matrix = vector<vector<char>>;
+
+struct UnionFind {
+    UnionFind(const Matrix& grid) 
+        : parent((grid.size()+1) * (grid[0].size()+1), -1), 
+          rank((grid.size()+1) * (grid[0].size()+1))
+    {
+        int m = (int)grid[0].size();
+        for (int r = 0; r < grid.size(); ++r) {
+            for (int c = 0; c < grid[0].size(); ++c) {
+                if (grid[r][c] == '1') {
+                    parent[r*m + c] = r*m + c;
+                    ++cnt;
+                }
+            }
+        }
+    }
+    
+    int find(int i) {
+        if (parent[i] != i) {
+            parent[i] = find(parent[i]);
+        }
+        return parent[i];
+    }
+    
+    void unionSet(int i, int j) {
+        int i_id = find(i);
+        int j_id = find(j);
+        if (i_id == j_id) return;
+        if (rank[i_id] >= rank[j_id]) {
+            parent[j_id] = i_id;
+            if (rank[i_id] == rank[j_id]) {
+                ++rank[i_id];
+            }
+        } else {
+            parent[i_id] = j_id;
+        }
+        --cnt;
+    }
+
+    vector<int> parent;
+    vector<int> rank;
+    int cnt = 0;
+};
+
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        n = grid.size();
+        if (n == 0) return 0;
+        m = grid[0].size();
+        if (m == 0) return 0;
+        UnionFind uf(grid);
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < m; ++j) {
+                if (grid[i][j] == '0') continue;
+                grid[i][j] = '0';
+                if (i > 0 && grid[i-1][j] == '1') uf.unionSet(lineIdx(i, j), lineIdx(i-1, j));
+                if (i+1 < n && grid[i+1][j] == '1') uf.unionSet(lineIdx(i, j), lineIdx(i+1, j));
+                if (j > 0 && grid[i][j-1] == '1') uf.unionSet(lineIdx(i, j), lineIdx(i, j-1));
+                if (j+1 < m && grid[i][j+1] == '1') uf.unionSet(lineIdx(i, j), lineIdx(i, j+1));
+            }
+        }
+        return uf.cnt;
+    }
+    
+private:
+    int lineIdx(int r, int c) const {
+        return r*m + c;
     }
     
     size_t n = 0;
