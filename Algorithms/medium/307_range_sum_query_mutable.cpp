@@ -35,6 +35,46 @@ init(a : array):
     t(a.size())
     for i,v in a:
         update(i, v)
+        
+Algo3: segment tree
+build(a):
+    build(a, n=1, l=0, r=n-1)
+
+build(a, n, tl, tr):
+    if tl == tr:
+        t[tl] = a[tl]
+    else:
+        tm = (tl+tr) / 2
+        build(a, 2*n, tl, tm)
+        build(a, 2*n+1, tm+1, tr)
+        t[n] = t[2*n] + t[2*n+1]
+    
+sum(l, r):
+    sum(1, 0, n-1, l, r)
+    
+sum(n, tl, tr, l, r):
+    if l > r: return 0
+    if l == tl and r == tr:
+        return t[n]
+    tm = (tl + tr) / 2
+    return sum(2*n, tl, tm, l, min(r, tm))
+         + sum(2*n+1, tm+1, tr, max(l, tm+1), r)
+
+update(i, val):
+    update(n, val, 1, 0, n-1)
+    
+update(i, val, n, tl, tr):
+    if tl == tr:
+        t[tl] = val
+    else:
+        tm = (tl+tr)/2
+        if i <= tm:
+            update(i, val, 2*n, tl, tm)
+        else:
+            update(i, val, 2*n+1, tm+1, tr)
+    t[n] = t[2*n] + t[2*n+1]
+    
+t = []
 
 */
 
@@ -190,6 +230,103 @@ private:
 private:
     vector<int> t;
     vector<int> a;
+};
+
+/*
+Algo3: segment tree
+build(a, n=1, tl=0, tr=n-1):
+    if tl == tr:
+        t[tl] = a[tl]
+    else:
+        tm = (tl+tr) / 2
+        build(a, 2*n, tl, tm)
+        build(a, 2*n+1, tm+1, tr)
+        t[n] = t[2*n] + t[2*n+1]
+    
+sum(l, r, n=1, tl=0, tr=n-1):
+    if l > r: return 0
+    if l == tl and r == tr:
+        return t[n]
+    tm = (tl + tr) / 2
+    return sum(l, min(r, tm), 2*n, tl, tm)
+         + sum(max(l, tm+1), r, 2*n+1, tm+1, tr)
+
+update(i, val, n=1, tl=0, tr=n-1):
+    if tl == tr:
+        t[tl] = val
+    else:
+        tm = (tl+tr)/2
+        if i <= tm:
+            update(i, val, 2*n, tl, tm)
+        else:
+            update(i, val, 2*n+1, tm+1, tr)
+    t[n] = t[2*n] + t[2*n+1]
+    
+t = []
+*/
+
+class NumArray {
+public:
+    NumArray(const vector<int>& a) 
+        : t(4*a.size()), n(a.size())
+    {
+        build(a, 1, 0, n-1);
+    }
+    
+    void update(int i, int val) {
+        update(i, val, 1, 0, n-1);
+    }
+    
+    int sumRange(int l, int r) {
+        return sum(l, r, 1, 0, n-1);
+    }
+    
+private:
+    void build(const vector<int>& a, int v, int tl, int tr) {
+        if (tl == tr) {
+            t[v] = a[tl];
+        } else {
+            int tm = (tl+tr) / 2;
+            build(a, 2*v, tl, tm);
+            build(a, 2*v+1, tm+1, tr);
+            t[v] = t[2*v] + t[2*v+1];
+        }
+    }
+    
+    void update(int i, int val, int v, int tl, int tr) {
+        if (tl == tr) {
+            t[v] = val;
+        } else {
+            int tm = (tl+tr)/2;;
+            if (i <= tm) {
+                update(i, val, 2*v, tl, tm);
+            } else {
+                update(i, val, 2*v+1, tm+1, tr);
+            }
+            t[v] = t[2*v] + t[2*v+1];
+        }
+    }
+    
+    int sum(int l, int r, int v, int tl, int tr) {
+        if (l > r) return 0;
+        if (l == tl && r == tr) {
+            return t[v];
+        }
+        int tm = (tl + tr) / 2;
+        return sum(l, min(r, tm), 2*v, tl, tm)
+             + sum(max(l, tm+1), r, 2*v+1, tm+1, tr);
+    }
+    
+    void print() {
+        for (size_t i = 0; i < t.size(); ++i) {
+            cout << i << ':' << t[i] << " ";
+        }
+        cout << '\n';
+    }
+    
+private:
+    vector<int> t;
+    int n = 0;
 };
 
 ["NumArray","sumRange","update","sumRange"]
